@@ -79,3 +79,21 @@
 22:28:50.288 [ApplicationImpl pooled thread 339] INFO  c.b.l.BrowserStackRunExtension - testng
 22:28:50.288 [ApplicationImpl pooled thread 339] INFO  com.browserstack.utils.Helpers - null
 22:28:50.291 [ApplicationImpl pooled thread 339] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+14:56:43.092 [ApplicationImpl pooled thread 114] INFO  c.b.l.BrowserStackRunExtension - testng
+14:56:43.118 [ApplicationImpl pooled thread 114] INFO  com.browserstack.utils.Helpers - null
+14:56:43.118 [ApplicationImpl pooled thread 114] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+14:58:38.666 [ApplicationImpl pooled thread 121] INFO  c.b.l.BrowserStackRunExtension - testng
+14:58:38.666 [ApplicationImpl pooled thread 121] INFO  com.browserstack.utils.Helpers - null
+14:58:38.666 [ApplicationImpl pooled thread 121] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+15:01:02.815 [ApplicationImpl pooled thread 125] INFO  c.b.l.BrowserStackRunExtension - testng
+15:01:02.815 [ApplicationImpl pooled thread 125] INFO  com.browserstack.utils.Helpers - null
+15:01:02.815 [ApplicationImpl pooled thread 125] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+15:01:40.190 [ApplicationImpl pooled thread 123] INFO  c.b.l.BrowserStackRunExtension - testng
+15:01:40.190 [ApplicationImpl pooled thread 123] INFO  com.browserstack.utils.Helpers - null
+15:01:40.205 [ApplicationImpl pooled thread 123] INFO  c.b.l.BrowserStackRunExtension - Agent path: null
+15:07:07.939 [ApplicationImpl pooled thread 140] INFO  c.b.l.BrowserStackRunExtension - maven
+15:07:07.939 [ApplicationImpl pooled thread 140] INFO  com.browserstack.utils.Helpers - null
+15:11:44.925 [ApplicationImpl pooled thread 140] INFO  c.b.l.BrowserStackRunExtension - maven
+15:11:44.925 [ApplicationImpl pooled thread 140] INFO  com.browserstack.utils.Helpers - null
+15:12:32.116 [ApplicationImpl pooled thread 135] INFO  c.b.l.BrowserStackRunExtension - maven
+15:12:32.116 [ApplicationImpl pooled thread 135] INFO  com.browserstack.utils.Helpers - null
