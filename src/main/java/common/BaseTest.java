@@ -11,6 +11,10 @@ import java.time.Duration;
 public class BaseTest {
     private WebDriver driver;
 
+    public WebDriver getDriver() {
+        return driver;
+    }
+
     protected WebDriver getBrowserDriver(String browserName, String url){
         BrowserList browserList = BrowserList.valueOf(browserName.toUpperCase());
         switch (browserList){

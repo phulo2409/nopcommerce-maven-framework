@@ -18,7 +18,7 @@ public class RegisterTest extends BaseTest {
     @BeforeClass
     public void beforeClass(String browser, String url){
         driver = getBrowserDriver(browser, url);
-        homePage = PageGenerator.getUserHomePage(driver);
+        homePage = PageGenerator.getPageGenerator().getUserHomePage(driver);
         registerPage = homePage.openRegisterPage();
 
         fakerConfig = FakerConfig.getFaker();
@@ -106,9 +106,6 @@ public class RegisterTest extends BaseTest {
 
         Assert.assertEquals(registerPage.getConfirmPasswordValidationMessage(), "The password and confirmation password do not match.");
     }
-
-
-
 
     @AfterClass
     public void afterClass(){

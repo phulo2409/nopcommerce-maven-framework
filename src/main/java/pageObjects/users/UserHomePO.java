@@ -17,25 +17,19 @@ public class UserHomePO extends BasePage {
     public UserRegisterPO openRegisterPage(){
         waitForElementClickable(driver, UserHomePUI.REGISTER_LINK);
         clickToElement(driver, UserHomePUI.REGISTER_LINK);
-        return PageGenerator.getUserRegisterPage(driver);
+        return PageGenerator.getPageGenerator().getUserRegisterPage(driver);
     }
 
     @Step("Open the Login Page")
     public UserLoginPO openLoginPage(){
         waitForElementClickable(driver, UserHomePUI.LOGIN_LINK);
         clickToElement(driver, UserHomePUI.LOGIN_LINK);
-        return PageGenerator.getUserLoginPage(driver);
+        return PageGenerator.getPageGenerator().getUserLoginPage(driver);
     }
 
     @Step("Verify: Check 'Welcome to our store' displayed")
     public boolean isWelcomeTitleDisplayed() {
         waitForElementVisible(driver, UserHomePUI.WELCOME_TITLE);
         return isElementDisplayed(driver, UserHomePUI.WELCOME_TITLE);
-    }
-
-    @Step("Verify: Check 'My Account' displayed")
-    public boolean isMyAccountDisplayed() {
-        waitForElementVisible(driver, UserHomePUI.MY_ACCOUNT_LINK);
-        return isElementDisplayed(driver, UserHomePUI.MY_ACCOUNT_LINK);
     }
 }

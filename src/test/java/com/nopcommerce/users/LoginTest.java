@@ -28,7 +28,7 @@ public class LoginTest extends BaseTest {
         company = fakerConfig.getCompany();
         password = fakerConfig.getPassword();
 
-        homePage = PageGenerator.getUserHomePage(driver);
+        homePage = PageGenerator.getPageGenerator().getUserHomePage(driver);
         registerPage = homePage.openRegisterPage();
         registerPage.createAnAccount(firstName, lastName, email, company, password);
         homePage = registerPage.clickToLogoutLink();
@@ -71,7 +71,6 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void Login_05_Empty_Data(){
-
         loginPage.enterToEmailTextbox(email);
         loginPage.clickTheLogInButton();
 
@@ -80,13 +79,12 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void Login_06_Login_With_Registered_Email_And_Incorrect_Password(){
-
         loginPage.enterToEmailTextbox(email);
         loginPage.enterToPasswordTextbox(password);
         homePage = loginPage.clickTheLogInButton();
 
         Assert.assertTrue(homePage.isWelcomeTitleDisplayed());
-        Assert.assertTrue(homePage.isMyAccountDisplayed());
+        Assert.assertTrue(homePage.isMyAccountDisplayed(driver));
     }
 
     @AfterClass

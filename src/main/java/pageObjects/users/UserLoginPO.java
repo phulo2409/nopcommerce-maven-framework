@@ -7,7 +7,7 @@ import pageObjects.PageGenerator;
 import pageUIs.users.UserLoginPUI;
 
 public class UserLoginPO extends BasePage {
-    WebDriver driver;
+    private WebDriver driver;
 
     public UserLoginPO(WebDriver driver) {
         this.driver = driver;
@@ -41,7 +41,15 @@ public class UserLoginPO extends BasePage {
     public UserHomePO clickTheLogInButton() {
         waitForElementClickable(driver, UserLoginPUI.LOGIN_BUTTON);
         clickToElement(driver, UserLoginPUI.LOGIN_BUTTON);
-        return PageGenerator.getUserHomePage(driver);
+        return PageGenerator.getPageGenerator().getUserHomePage(driver);
+    }
+
+    public UserHomePO loginUserAccount(String email, String password){
+        waitForElementVisible(driver, UserLoginPUI.EMAIL_TEXTBOX);
+        sendkeyToElement(driver, UserLoginPUI.EMAIL_TEXTBOX, email);
+        sendkeyToElement(driver, UserLoginPUI.PASSWORD_TEXTBOX, password);
+        clickToElement(driver, UserLoginPUI.LOGIN_BUTTON);
+        return PageGenerator.getPageGenerator().getUserHomePage(driver);
     }
 
 }

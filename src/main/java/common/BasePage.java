@@ -1,10 +1,18 @@
 package common;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pageObjects.PageGenerator;
+import pageObjects.users.UserCustomerInfoPO;
+import pageUIs.users.BasePageUI;
+import pageUIs.users.UserHomePUI;
+import pageUIs.users.UserSideBarPUI;
 
 import java.time.Duration;
 
@@ -35,6 +43,10 @@ private WebDriver driver;
         return by;
     }
 
+    private String castParameter(String locator, String... restParameter){
+        return String.format(locator, (Object[]) restParameter);
+    }
+
     private WebElement getElement(WebDriver driver, String locator){
         return driver.findElement(getByLocator(locator));
     }
@@ -43,21 +55,71 @@ private WebDriver driver;
         getElement(driver, locator).click();
     }
 
+    protected void clickToElement(WebDriver driver, String locator, String... restParameter){
+        getElement(driver, castParameter(locator, restParameter)).click();
+    }
+
+    protected void moveToElement(WebDriver driver, String locator){
+        new Actions(driver).moveToElement(getElement(driver, locator)).perform();
+    }
+
+    protected void moveToElement(WebDriver driver, String locator, String... restParameter){
+        new Actions(driver).moveToElement(getElement(driver, castParameter(locator, restParameter))).perform();
+    }
+
+    protected void clickToElementActions(WebDriver driver, String locator, String... restParameter){
+        new Actions(driver).click(getElement(driver, castParameter(locator, restParameter))).perform();
+    }
+
     protected void sendkeyToElement(WebDriver driver, String locator, String value){
         getElement(driver, locator).clear();
         getElement(driver, locator).sendKeys(value);
+    }
+
+    protected void checkToRadioButton(WebDriver driver, String locator){
+        if(!getElement(driver, locator).isSelected()){
+            getElement(driver, locator).click();
+        }
+    }
+
+    protected void selectItemInDropdown(WebDriver driver, String locator, String textItem){
+        new Select(getElement(driver, locator)).selectByVisibleText(textItem);
+    }
+
+    protected String getSelectedItemInDropdown(WebDriver driver, String locator){
+        return new Select(getElement(driver, locator)).getFirstSelectedOption().getText();
     }
 
     protected boolean isElementDisplayed(WebDriver driver, String locator){
         return getElement(driver, locator).isDisplayed();
     }
 
+    protected boolean isElementDisplayed(WebDriver driver, String locator, String... restParameter){
+        return getElement(driver, castParameter(locator, restParameter)).isDisplayed();
+    }
+
+    protected boolean isElementSelected(WebDriver driver, String locator){
+        return getElement(driver, locator).isSelected();
+    }
+
     protected String getTextElement(WebDriver driver, String locator){
         return getElement(driver, locator).getText();
     }
 
+    protected String getElementAttribute(WebDriver driver, String locator, String attributeName){
+        return getElement(driver, locator).getAttribute(attributeName);
+    }
+
+    protected String getTextboxValue(WebDriver driver, String locator){
+        return getElementAttribute(driver, locator, "value");
+    }
+
     protected void waitForElementVisible(WebDriver driver, String locator){
         new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(locator)));
+    }
+
+    protected void waitForElementVisible(WebDriver driver, String locator, String... restParameter){
+        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(castParameter(locator, restParameter))));
     }
 
     protected void waitForElementInvisible(WebDriver driver, String locator){
@@ -72,9 +134,56 @@ private WebDriver driver;
         new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(getByLocator(locator)));
     }
 
+    protected void waitForElementClickable(WebDriver driver, String locator, String... restParameter){
+        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(getByLocator(castParameter(locator, restParameter))));
+    }
 
+    protected void sleepInSecond(long timeInSeconds){
+        try {
+            Thread.sleep(timeInSeconds*1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    @Step("Verify: Success Bar Notification is displayed")
+    public boolean isSuccessBarNotificationDisplayed(WebDriver driver) {
+        waitForElementVisible(driver, UserSideBarPUI.SUCCESS_BAR_NOTIFICATION);
+        return isElementDisplayed(driver, UserSideBarPUI.SUCCESS_BAR_NOTIFICATION);
+    }
 
+    public void openHeaderMenuBarPage(String menuItem){
+        waitForElementClickable(driver, BasePageUI.HEADER_MENU_FIRST_LEVEL, menuItem);
+        clickToElement(driver, BasePageUI.HEADER_MENU_FIRST_LEVEL, menuItem);
+    }
+
+    public void openHeaderMenuBarPage(WebDriver driver, String menuItem, String menuItem2){
+        waitForElementClickable(driver, BasePageUI.HEADER_MENU_FIRST_LEVEL, menuItem);
+        moveToElement(driver, BasePageUI.HEADER_MENU_FIRST_LEVEL, menuItem);
+
+        waitForElementClickable(driver, BasePageUI.HEADER_MENU_SECOND_LEVEL, menuItem, menuItem2);
+        clickToElement(driver, BasePageUI.HEADER_MENU_FIRST_LEVEL, menuItem2);
+    }
+
+    @Step("Open Customer Info Page")
+    public UserCustomerInfoPO openCustomerInfoPage(WebDriver driver) {
+        waitForElementClickable(driver, BasePageUI.MY_ACCOUNT_LINK);
+        clickToElement(driver, BasePageUI.MY_ACCOUNT_LINK);
+        return PageGenerator.getPageGenerator().getUserCustomerInfoPage(driver);
+    }
+
+    @Step("Verify: Check 'My Account' displayed")
+    public boolean isMyAccountDisplayed(WebDriver driver) {
+        waitForElementVisible(driver, BasePageUI.MY_ACCOUNT_LINK);
+        return isElementDisplayed(driver, BasePageUI.MY_ACCOUNT_LINK);
+    }
+
+    @Step("Click to close Bar Notification button")
+    public void closeTheBarNotification(WebDriver driver){
+        waitForElementClickable(driver, BasePageUI.CLOSE_BAR_BUTTON);
+        clickToElement(driver, BasePageUI.CLOSE_BAR_BUTTON);
+        sleepInSecond(2);
+    }
 
 
 }

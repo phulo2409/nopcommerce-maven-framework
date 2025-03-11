@@ -33,4 +33,20 @@ public class FakerConfig {
     public String getCompany(){
         return faker.company().name();
     }
+
+    public String getCityName(){
+        return faker.address().cityName();
+    }
+
+    public String getStreetAddress(){
+        return faker.address().streetAddress();
+    }
+
+    public String getZipcode(){
+        return faker.address().zipCode();
+    }
+
+    public String getPhoneNumber(){
+        return faker.phoneNumber().phoneNumber();
+    }
 }

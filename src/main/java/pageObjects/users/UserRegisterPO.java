@@ -4,6 +4,7 @@ import common.BasePage;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pageObjects.PageGenerator;
+import pageUIs.users.BasePageUI;
 import pageUIs.users.UserRegisterPUI;
 
 public class UserRegisterPO extends BasePage {
@@ -51,9 +52,9 @@ public class UserRegisterPO extends BasePage {
 
     @Step("Click to Logout link")
     public UserHomePO clickToLogoutLink(){
-        waitForElementClickable(driver, UserRegisterPUI.LOGOUT_LINK);
-        clickToElement(driver, UserRegisterPUI.LOGOUT_LINK);
-        return PageGenerator.getUserHomePage(driver);
+        waitForElementClickable(driver, BasePageUI.LOGOUT_LINK);
+        clickToElement(driver, BasePageUI.LOGOUT_LINK);
+        return PageGenerator.getPageGenerator().getUserHomePage(driver);
     }
 
     @Step("Verify: Get Register success message")
