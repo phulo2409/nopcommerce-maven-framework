@@ -17,6 +17,7 @@
         <testng.version>7.11.0</testng.version>
         <aspectj.version>1.9.22.1</aspectj.version>
         <allure.version>2.29.1</allure.version>
+        <log4j.version>2.23.1</log4j.version>
     </properties>
 
     <dependencies>
@@ -100,6 +101,18 @@
             <groupId>net.datafaker</groupId>
             <artifactId>datafaker</artifactId>
             <version>1.8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
 
     </dependencies>

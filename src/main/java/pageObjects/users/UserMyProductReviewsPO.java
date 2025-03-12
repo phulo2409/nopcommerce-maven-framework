@@ -1,6 +1,7 @@
 package pageObjects.users;
 
 import common.BasePage;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pageUIs.users.UserMyProductReviewsPUI;
 
@@ -11,6 +12,7 @@ public class UserMyProductReviewsPO extends BasePage {
         this.driver = driver;
     }
 
+    @Step("Verify: The Review with {0} title is displayed")
     public boolean isTheReviewDisplayed(String productTitle) {
         waitForElementVisible(driver, UserMyProductReviewsPUI.PRODUCT_REVIEW_TITLE, productTitle);
         return isElementDisplayed(driver, UserMyProductReviewsPUI.PRODUCT_REVIEW_TITLE, productTitle);

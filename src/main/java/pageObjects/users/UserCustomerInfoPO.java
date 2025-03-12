@@ -13,9 +13,12 @@ public class UserCustomerInfoPO extends UserSideBarPO {
     }
 
     @Step("Check on Male radiobutton")
-    public void checkOnMaleRadio() {
-        waitForElementClickable(driver, UserCustomerInfoPUI.MALE_RADIO);
-        checkToRadioButton(driver, UserCustomerInfoPUI.MALE_RADIO);
+    public void checkOnMaleRadio(String gender) {
+        if (!gender.equalsIgnoreCase("Male") && !gender.equalsIgnoreCase("Female")) {
+            throw new IllegalArgumentException("Gender must be either 'Male' or 'Female'.");
+        }
+        waitForElementClickable(driver, UserCustomerInfoPUI.GENDER_RADIO, gender);
+        checkToRadioButton(driver, UserCustomerInfoPUI.GENDER_RADIO, gender);
     }
 
     @Step("Enter to First Name textbox with {0}")
@@ -51,8 +54,8 @@ public class UserCustomerInfoPO extends UserSideBarPO {
 
     @Step("Verify: Male radiobutton is selected")
     public boolean isMaleRadioSelected() {
-        waitForElementSelected(driver, UserCustomerInfoPUI.MALE_RADIO);
-        return isElementSelected(driver, UserCustomerInfoPUI.MALE_RADIO);
+        waitForElementSelected(driver, UserCustomerInfoPUI.GENDER_RADIO);
+        return isElementSelected(driver, UserCustomerInfoPUI.GENDER_RADIO);
     }
 
     @Step("Verify: Get value of First Name textbox")
@@ -78,4 +81,15 @@ public class UserCustomerInfoPO extends UserSideBarPO {
         waitForElementVisible(driver, UserCustomerInfoPUI.COMPANY_TEXTBOX);
         return getTextboxValue(driver, UserCustomerInfoPUI.COMPANY_TEXTBOX);
     }
+
+    @Step("Update Information in My Account")
+    public void updateAccoutInfomation(String gender, String firstName, String lastName, String email, String company){
+        checkOnMaleRadio(gender);
+        enterToFirstNameTextbox(firstName);
+        enterToLastNameTextbox(lastName);
+        enterToEmailTextbox(email);
+        enterToCompanyTextbox(company);
+        clickTheSaveButton();
+    }
+
 }

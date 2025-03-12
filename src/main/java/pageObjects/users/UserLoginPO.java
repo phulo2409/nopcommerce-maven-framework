@@ -44,6 +44,7 @@ public class UserLoginPO extends BasePage {
         return PageGenerator.getPageGenerator().getUserHomePage(driver);
     }
 
+    @Step("Login to User Account")
     public UserHomePO loginUserAccount(String email, String password){
         waitForElementVisible(driver, UserLoginPUI.EMAIL_TEXTBOX);
         sendkeyToElement(driver, UserLoginPUI.EMAIL_TEXTBOX, email);

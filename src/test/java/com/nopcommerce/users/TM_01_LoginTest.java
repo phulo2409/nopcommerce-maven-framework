@@ -2,7 +2,6 @@ package com.nopcommerce.users;
 
 import common.BaseTest;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -13,7 +12,7 @@ import pageObjects.users.UserLoginPO;
 import pageObjects.users.UserRegisterPO;
 import utilities.FakerConfig;
 
-public class LoginTest extends BaseTest {
+public class TM_01_LoginTest extends BaseTest {
 
     @Parameters({"browser", "url"})
     @BeforeClass
@@ -40,7 +39,7 @@ public class LoginTest extends BaseTest {
     public void Login_01_Empty_Data(){
         loginPage.clickTheLogInButton();
 
-        Assert.assertEquals(loginPage.getEmailValidation(), "Please enter your email");
+        verifyEquals(loginPage.getEmailValidation(), "Please enter your email");
     }
 
     @Test
@@ -48,7 +47,7 @@ public class LoginTest extends BaseTest {
         loginPage.enterToEmailTextbox("phulo@gmail");
         loginPage.clickTheLogInButton();
 
-        Assert.assertEquals(loginPage.getEmailValidation(), "Wrong email");
+        verifyEquals(loginPage.getEmailValidation(), "Wrong email");
     }
 
     @Test
@@ -57,7 +56,7 @@ public class LoginTest extends BaseTest {
         loginPage.enterToPasswordTextbox(password);
         loginPage.clickTheLogInButton();
 
-        Assert.assertEquals(loginPage.getLoginValidation(), "Login was unsuccessful. Please correct the errors and try again.\nNo customer account found");
+        verifyEquals(loginPage.getLoginValidation(), "Login was unsuccessful. Please correct the errors and try again.\nNo customer account found");
     }
 
     @Test
@@ -66,7 +65,7 @@ public class LoginTest extends BaseTest {
         loginPage.enterToEmailTextbox(email);
         loginPage.clickTheLogInButton();
 
-        Assert.assertEquals(loginPage.getLoginValidation(), "Login was unsuccessful. Please correct the errors and try again.\nThe credentials provided are incorrect");
+        verifyEquals(loginPage.getLoginValidation(), "Login was unsuccessful. Please correct the errors and try again.\nThe credentials provided are incorrect");
     }
 
     @Test
@@ -74,7 +73,7 @@ public class LoginTest extends BaseTest {
         loginPage.enterToEmailTextbox(email);
         loginPage.clickTheLogInButton();
 
-        Assert.assertEquals(loginPage.getLoginValidation(), "Login was unsuccessful. Please correct the errors and try again.\nThe credentials provided are incorrect");
+        verifyEquals(loginPage.getLoginValidation(), "Login was unsuccessful. Please correct the errors and try again.\nThe credentials provided are incorrect");
     }
 
     @Test
@@ -83,8 +82,8 @@ public class LoginTest extends BaseTest {
         loginPage.enterToPasswordTextbox(password);
         homePage = loginPage.clickTheLogInButton();
 
-        Assert.assertTrue(homePage.isWelcomeTitleDisplayed());
-        Assert.assertTrue(homePage.isMyAccountDisplayed(driver));
+        verifyTrue(homePage.isWelcomeTitleDisplayed());
+        verifyTrue(homePage.isMyAccountDisplayed(driver));
     }
 
     @AfterClass

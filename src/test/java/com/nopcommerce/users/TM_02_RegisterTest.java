@@ -2,7 +2,6 @@ package com.nopcommerce.users;
 
 import common.BaseTest;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -12,7 +11,7 @@ import pageObjects.users.UserHomePO;
 import pageObjects.users.UserRegisterPO;
 import utilities.FakerConfig;
 
-public class RegisterTest extends BaseTest {
+public class TM_02_RegisterTest extends BaseTest {
 
     @Parameters({"browser", "url"})
     @BeforeClass
@@ -33,10 +32,10 @@ public class RegisterTest extends BaseTest {
     public void Register_01_Empty_Data(){
         registerPage.clickTheRegisterButton();
 
-        Assert.assertEquals(registerPage.getFirstNameValidationMessage(), "First name is required.");
-        Assert.assertEquals(registerPage.getLastNameValidationMessage(), "Last name is required.");
-        Assert.assertEquals(registerPage.getEmailValidationMessage(), "Email is required.");
-        Assert.assertEquals(registerPage.getConfirmPasswordValidationMessage(), "Password is required.");
+        verifyEquals(registerPage.getFirstNameValidationMessage(), "First name is required.");
+        verifyEquals(registerPage.getLastNameValidationMessage(), "Last name is required.");
+        verifyEquals(registerPage.getEmailValidationMessage(), "Email is required.");
+        verifyEquals(registerPage.getConfirmPasswordValidationMessage(), "Password is required.");
     }
 
     @Test
@@ -49,7 +48,7 @@ public class RegisterTest extends BaseTest {
         registerPage.enterToConfirmPasswordTextbox(password);
         registerPage.clickTheRegisterButton();
 
-        Assert.assertEquals(registerPage.getEmailValidationMessage(), "Wrong email");
+        verifyEquals(registerPage.getEmailValidationMessage(), "Wrong email");
     }
 
     @Test
@@ -62,7 +61,7 @@ public class RegisterTest extends BaseTest {
         registerPage.enterToConfirmPasswordTextbox(password);
         registerPage.clickTheRegisterButton();
 
-        Assert.assertEquals(registerPage.getRegisterSuccessMessage(), "Your registration completed");
+        verifyEquals(registerPage.getRegisterSuccessMessage(), "Your registration completed");
     }
 
     @Test
@@ -78,7 +77,7 @@ public class RegisterTest extends BaseTest {
         registerPage.enterToConfirmPasswordTextbox("123456789");
         registerPage.clickTheRegisterButton();
 
-        Assert.assertEquals(registerPage.getRegisterErrorMessage(), "The specified email already exists");
+        verifyEquals(registerPage.getRegisterErrorMessage(), "The specified email already exists");
     }
 
     @Test
@@ -91,7 +90,7 @@ public class RegisterTest extends BaseTest {
         registerPage.enterToConfirmPasswordTextbox("12345");
         registerPage.clickTheRegisterButton();
 
-        Assert.assertEquals(registerPage.getPasswordValidationMessage(), "Password must meet the following rules: must have at least 6 characters and not greater than 64 characters");
+        verifyEquals(registerPage.getPasswordValidationMessage(), "Password must meet the following rules: must have at least 6 characters and not greater than 64 characters");
     }
 
     @Test
@@ -104,7 +103,7 @@ public class RegisterTest extends BaseTest {
         registerPage.enterToConfirmPasswordTextbox("987654321");
         registerPage.clickTheRegisterButton();
 
-        Assert.assertEquals(registerPage.getConfirmPasswordValidationMessage(), "The password and confirmation password do not match.");
+        verifyEquals(registerPage.getConfirmPasswordValidationMessage(), "The password and confirmation password do not match.");
     }
 
     @AfterClass

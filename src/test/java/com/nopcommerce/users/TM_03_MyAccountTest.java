@@ -2,7 +2,6 @@ package com.nopcommerce.users;
 
 import common.BaseTest;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -11,7 +10,7 @@ import pageObjects.PageGenerator;
 import pageObjects.users.*;
 import utilities.FakerConfig;
 
-public class MyAccountTest extends BaseTest {
+public class TM_03_MyAccountTest extends BaseTest {
 
     @Parameters({"browser", "url"})
     @BeforeClass
@@ -32,6 +31,7 @@ public class MyAccountTest extends BaseTest {
         country = "Vietnam";
         state = "Hồ Chí Minh";
 
+        editGender = "Male";
         editFirstName = fakerConfig.getFirstName();
         editLastName = fakerConfig.getLastName();
         editEmail = "new_"+email;
@@ -44,24 +44,18 @@ public class MyAccountTest extends BaseTest {
         homePage = registerPage.clickToLogoutLink();
         loginPage = homePage.openLoginPage();
         homePage = loginPage.loginUserAccount(email, password);
-        System.out.println("Account:" + email + " / " + password);
         customerInfoPage = homePage.openCustomerInfoPage(driver);
     }
 
     @Test
     public void MyAccount_01_Customer_Info(){
-        customerInfoPage.checkOnMaleRadio();
-        customerInfoPage.enterToFirstNameTextbox(editFirstName);
-        customerInfoPage.enterToLastNameTextbox(editLastName);
-        customerInfoPage.enterToEmailTextbox(editEmail);
-        customerInfoPage.enterToCompanyTextbox(editCompany);
-        customerInfoPage.clickTheSaveButton();
+        customerInfoPage.updateAccoutInfomation(editGender, editFirstName, editLastName, editEmail, editCompany);
 
-        Assert.assertTrue(customerInfoPage.isMaleRadioSelected());
-        Assert.assertEquals(customerInfoPage.getValueFirstNameTextbox(), editFirstName);
-        Assert.assertEquals(customerInfoPage.getValueLastNameTextbox(), editLastName);
-        Assert.assertEquals(customerInfoPage.getValueEmailTextbox(), editEmail);
-        Assert.assertEquals(customerInfoPage.getValueCompanyTextbox(), editCompany);
+        verifyTrue(customerInfoPage.isMaleRadioSelected());
+        verifyEquals(customerInfoPage.getValueFirstNameTextbox(), editFirstName);
+        verifyEquals(customerInfoPage.getValueLastNameTextbox(), editLastName);
+        verifyEquals(customerInfoPage.getValueEmailTextbox(), editEmail);
+        verifyEquals(customerInfoPage.getValueCompanyTextbox(), editCompany);
     }
 
     @Test
@@ -71,21 +65,21 @@ public class MyAccountTest extends BaseTest {
 
         addressPage.addNewAddress(firstName, lastName, email, company, country, state, cityName, address, zipcode, phoneNumber);
 
-        Assert.assertTrue(addressPage.isSuccessBarNotificationDisplayed(driver));
+        verifyTrue(addressPage.isSuccessBarNotificationDisplayed(driver));
         addressPage.clickTheEditButton();
 
-        Assert.assertEquals(addressPage.getValueFirstNameTextbox(), firstName);
-        Assert.assertEquals(addressPage.getValueLastNameTextbox(), lastName);
-        Assert.assertEquals(addressPage.getValueEmailTextbox(), email);
-        Assert.assertEquals(addressPage.getValueCompanyTextbox(), company);
-        Assert.assertEquals(addressPage.getSelectedItemCountryDropdown(), country);
-        Assert.assertEquals(addressPage.getSelectedItemStateDropdown(), state);
-        Assert.assertEquals(addressPage.getValueCityTextbox(), cityName);
-        Assert.assertEquals(addressPage.getValueAddress1Textbox(), address);
-        Assert.assertEquals(addressPage.getValueAddress2Textbox(), address);
-        Assert.assertEquals(addressPage.getValueZipTextbox(), zipcode);
-        Assert.assertEquals(addressPage.getValuePhoneNumberTextbox(), phoneNumber);
-        Assert.assertEquals(addressPage.getValueFaxNumberTextbox(), phoneNumber);
+        verifyEquals(addressPage.getValueFirstNameTextbox(), firstName);
+        verifyEquals(addressPage.getValueLastNameTextbox(), lastName);
+        verifyEquals(addressPage.getValueEmailTextbox(), email);
+        verifyEquals(addressPage.getValueCompanyTextbox(), company);
+        verifyEquals(addressPage.getSelectedItemCountryDropdown(), country);
+        verifyEquals(addressPage.getSelectedItemStateDropdown(), state);
+        verifyEquals(addressPage.getValueCityTextbox(), cityName);
+        verifyEquals(addressPage.getValueAddress1Textbox(), address);
+        verifyEquals(addressPage.getValueAddress2Textbox(), address);
+        verifyEquals(addressPage.getValueZipTextbox(), zipcode);
+        verifyEquals(addressPage.getValuePhoneNumberTextbox(), phoneNumber);
+        verifyEquals(addressPage.getValueFaxNumberTextbox(), phoneNumber);
     }
 
     @Test
@@ -94,14 +88,14 @@ public class MyAccountTest extends BaseTest {
         changePasswordPage = PageGenerator.getPageGenerator().getUserChangePassword(driver);
 
         changePasswordPage.changePassword(password, editPassword);
-        Assert.assertTrue(changePasswordPage.isSuccessBarNotificationDisplayed(driver));
+        verifyTrue(changePasswordPage.isSuccessBarNotificationDisplayed(driver));
 
         changePasswordPage.closeTheBarNotification(driver);
         homePage = changePasswordPage.clickToLogoutLink();
 
         loginPage = homePage.openLoginPage();
         homePage = loginPage.loginUserAccount(editEmail, editPassword);
-        Assert.assertTrue(homePage.isMyAccountDisplayed(driver));
+        verifyTrue(homePage.isMyAccountDisplayed(driver));
 
     }
 
@@ -123,7 +117,7 @@ public class MyAccountTest extends BaseTest {
 
         customerInfoPage.openSidebarLinkByPageNames("My product reviews");
         myProductReviewsPage = PageGenerator.getPageGenerator().getUserMyProductReviews(driver);
-        Assert.assertTrue(myProductReviewsPage.isTheReviewDisplayed("Good"));
+        verifyTrue(myProductReviewsPage.isTheReviewDisplayed("Good"));
     }
     @AfterClass
     public void afterClass(){
@@ -142,5 +136,5 @@ public class MyAccountTest extends BaseTest {
     UserMyProductReviewsPO myProductReviewsPage;
     FakerConfig fakerConfig, faker;
     String firstName, lastName, email, company, password, cityName, address, zipcode, phoneNumber, country, state,
-            editFirstName, editLastName, editEmail, editCompany, editPassword;
+            editGender, editFirstName, editLastName, editEmail, editCompany, editPassword;
 }

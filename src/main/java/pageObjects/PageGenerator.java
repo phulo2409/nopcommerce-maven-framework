@@ -45,6 +45,10 @@ public class PageGenerator {
         return new UserMyProductReviewsPO(driver);
     }
 
+    public UserSearchPO getUserSearch(WebDriver driver){
+        return new UserSearchPO(driver);
+    }
+
 
 
 

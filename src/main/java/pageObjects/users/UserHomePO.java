@@ -32,4 +32,10 @@ public class UserHomePO extends BasePage {
         waitForElementVisible(driver, UserHomePUI.WELCOME_TITLE);
         return isElementDisplayed(driver, UserHomePUI.WELCOME_TITLE);
     }
+
+    public UserSearchPO openSearchPage(){
+        waitForElementClickable(driver, UserHomePUI.SEARCH_FOOTER_LINK);
+        clickToElement(driver, UserHomePUI.SEARCH_FOOTER_LINK);
+        return PageGenerator.getPageGenerator().getUserSearch(driver);
+    }
 }

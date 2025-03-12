@@ -8,6 +8,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import pageObjects.PageGenerator;
 import pageObjects.users.UserCustomerInfoPO;
 import pageUIs.users.BasePageUI;
@@ -15,6 +16,7 @@ import pageUIs.users.UserHomePUI;
 import pageUIs.users.UserSideBarPUI;
 
 import java.time.Duration;
+import java.util.List;
 
 public class BasePage {
 private WebDriver driver;
@@ -51,6 +53,10 @@ private WebDriver driver;
         return driver.findElement(getByLocator(locator));
     }
 
+    private List<WebElement> getListElement(WebDriver driver, String locator){
+        return driver.findElements(getByLocator(locator));
+    }
+
     protected void clickToElement(WebDriver driver, String locator){
         getElement(driver, locator).click();
     }
@@ -79,6 +85,36 @@ private WebDriver driver;
     protected void checkToRadioButton(WebDriver driver, String locator){
         if(!getElement(driver, locator).isSelected()){
             getElement(driver, locator).click();
+        }
+    }
+
+    protected void checkToRadioButton(WebDriver driver, String locator, String... restParameter){
+        if(!getElement(driver, castParameter(locator, restParameter)).isSelected()){
+            getElement(driver, castParameter(locator, restParameter)).click();
+        }
+    }
+
+    protected void checkToCheckbox(WebDriver driver, String locator){
+        if(!getElement(driver, locator).isSelected()){
+            getElement(driver, locator).click();
+        }
+    }
+
+    protected void checkToCheckbox(WebDriver driver, String locator, String... restParameter){
+        if(!getElement(driver, castParameter(locator, restParameter)).isSelected()){
+            getElement(driver, castParameter(locator, restParameter)).click();
+        }
+    }
+
+    protected void uncheckToCheckbox(WebDriver driver, String locator){
+        if(getElement(driver, locator).isSelected()){
+            getElement(driver, locator).click();
+        }
+    }
+
+    protected void uncheckToCheckbox(WebDriver driver, String locator, String... restParameter){
+        if(getElement(driver, castParameter(locator, restParameter)).isSelected()){
+            getElement(driver, castParameter(locator, restParameter)).click();
         }
     }
 
@@ -114,28 +150,62 @@ private WebDriver driver;
         return getElementAttribute(driver, locator, "value");
     }
 
+    protected int getListElementNumber(WebDriver driver, String locator){
+        return getListElement(driver, locator).size();
+    }
+
     protected void waitForElementVisible(WebDriver driver, String locator){
-        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(locator)));
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(locator)));
+        } catch (Throwable error){
+            error.printStackTrace();
+            Assert.fail("The " + locator + " isn't visible after the timeout waiting period is over");
+        }
     }
 
     protected void waitForElementVisible(WebDriver driver, String locator, String... restParameter){
-        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(castParameter(locator, restParameter))));
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(castParameter(locator, restParameter))));
+        } catch (Throwable error){
+            error.printStackTrace();
+            Assert.fail("The " + castParameter(locator, restParameter) + " isn't visible after the timeout waiting period is over");
+        }
     }
 
     protected void waitForElementInvisible(WebDriver driver, String locator){
-        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.invisibilityOfElementLocated(getByLocator(locator)));
+        try{
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.invisibilityOfElementLocated(getByLocator(locator)));
+        } catch (Throwable error){
+            error.printStackTrace();
+            Assert.fail("The " + locator + " isn't invisible after the timeout waiting period is over");
+        }
     }
 
     protected void waitForElementSelected(WebDriver driver, String locator){
-        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.elementToBeSelected(getByLocator(locator)));
+        try{
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.elementToBeSelected(getByLocator(locator)));
+        } catch (Throwable error){
+            error.printStackTrace();
+            Assert.fail("The " + locator + " can't be selected after the timeout waiting period is over");
+        }
     }
 
     protected void waitForElementClickable(WebDriver driver, String locator){
-        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(getByLocator(locator)));
+        try{
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(getByLocator(locator)));
+        } catch (Throwable error){
+            error.printStackTrace();
+            Assert.fail("The " + locator + " isn't clickable after the timeout waiting period is over");
+        }
     }
 
     protected void waitForElementClickable(WebDriver driver, String locator, String... restParameter){
-        new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(getByLocator(castParameter(locator, restParameter))));
+        try{
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(getByLocator(castParameter(locator, restParameter))));
+        } catch (Throwable error){
+            error.printStackTrace();
+            Assert.fail("The " + castParameter(locator, restParameter) + " isn't clickable after the timeout waiting period is over");
+        }
     }
 
     protected void sleepInSecond(long timeInSeconds){
@@ -152,11 +222,13 @@ private WebDriver driver;
         return isElementDisplayed(driver, UserSideBarPUI.SUCCESS_BAR_NOTIFICATION);
     }
 
+    @Step("Open {0} Page from header menubar")
     public void openHeaderMenuBarPage(String menuItem){
         waitForElementClickable(driver, BasePageUI.HEADER_MENU_FIRST_LEVEL, menuItem);
         clickToElement(driver, BasePageUI.HEADER_MENU_FIRST_LEVEL, menuItem);
     }
 
+    @Step("Open {0} -> {1} Page from header menubar")
     public void openHeaderMenuBarPage(WebDriver driver, String menuItem, String menuItem2){
         waitForElementClickable(driver, BasePageUI.HEADER_MENU_FIRST_LEVEL, menuItem);
         moveToElement(driver, BasePageUI.HEADER_MENU_FIRST_LEVEL, menuItem);
@@ -184,6 +256,4 @@ private WebDriver driver;
         clickToElement(driver, BasePageUI.CLOSE_BAR_BUTTON);
         sleepInSecond(2);
     }
-
-
 }

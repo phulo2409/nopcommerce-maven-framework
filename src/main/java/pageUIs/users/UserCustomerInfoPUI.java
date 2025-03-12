@@ -1,7 +1,7 @@
 package pageUIs.users;
 
 public class UserCustomerInfoPUI {
-    public final static String MALE_RADIO = "Xpath=//input[@id='gender-male']";
+    public final static String GENDER_RADIO = "Xpath=//label[text()='%s']/preceding-sibling::input";
     public final static String FIRST_NAME_TEXTBOX = "Xpath=//input[@id='FirstName']";
     public final static String LAST_NAME_TEXTBOX = "Xpath=//input[@id='LastName']";
     public final static String EMAIL_TEXTBOX = "Xpath=//input[@id='Email']";
