@@ -1,14 +1,16 @@
 package com.nopcommerce.users;
 
+import com.nopcommerce.common.Login;
 import common.BaseTest;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageObjects.PageGenerator;
 import pageObjects.users.*;
-import utilities.FakerConfig;
+import utilities.NopCommerceData;
 
 public class TM_04_SearchTest extends BaseTest {
 
@@ -16,22 +18,13 @@ public class TM_04_SearchTest extends BaseTest {
     @BeforeClass
     public void beforeClass(String browser, String url) {
         driver = getBrowserDriver(browser, url);
-        fakerConfig = FakerConfig.getFaker();
-        fakerConfig = FakerConfig.getFaker();
-        firstName = fakerConfig.getFirstName();
-        lastName = fakerConfig.getLastName();
-        email = fakerConfig.getEmailAddress();
-        company = fakerConfig.getCompany();
-        password = fakerConfig.getPassword();
-
         homePage = PageGenerator.getPageGenerator().getUserHomePage(driver);
-        registerPage = homePage.openRegisterPage();
-        registerPage.createAnAccount(firstName, lastName, email, company, password);
-        homePage = registerPage.clickToLogoutLink();
-        loginPage = homePage.openLoginPage();
-        homePage = loginPage.loginUserAccount(email, password);
-        searchPage = homePage.openSearchPage();
+        nopCommerceData = NopCommerceData.getNopCommerceData();
 
+        homePage.setCookies(driver, Login.nopCommerceCookies);
+        homePage.refreshCurrentPage(driver);
+        Assert.assertTrue(homePage.isMyAccountDisplayed(driver));
+        searchPage = homePage.openSearchPage();
     }
 
     @Test
@@ -39,95 +32,91 @@ public class TM_04_SearchTest extends BaseTest {
         searchPage.enterToSearchKeywordTextbox("");
         searchPage.clickTheSearchButton();
 
-        verifyEquals(searchPage.getWarningValidation(), "Search term minimum length is 3 characters");
+        verifyEquals(searchPage.getWarningValidation(), nopCommerceData.getSearchTest().getWarningValidation());
     }
 
     @Test
-    public void Search_02_Empty_Data(){
-        searchPage.enterToSearchKeywordTextbox("Macbook Pro 2050");
+    public void Search_02_Data_Not_Exist(){
+        searchPage.enterToSearchKeywordTextbox(nopCommerceData.getSearchTest().getMacbook2050Search());
         searchPage.clickTheSearchButton();
 
-        verifyEquals(searchPage.getNoResultValidation(), "No products were found that matched your criteria.");
+        verifyEquals(searchPage.getNoResultValidation(), nopCommerceData.getSearchTest().getNoResultValidation());
     }
 
     @Test
-    public void Search_03_Empty_Data(){
-        searchPage.enterToSearchKeywordTextbox("Lenovo");
+    public void Search_03_Product_With_Related_Name(){
+        searchPage.enterToSearchKeywordTextbox(nopCommerceData.getSearchTest().getLenovoSearch());
         searchPage.clickTheSearchButton();
 
         verifyEquals(searchPage.getTotalProductDisplayed(), 2);
-        verifyTrue(searchPage.isProductDisplayed("Lenovo IdeaCentre 600 All-in-One PC"));
-        verifyTrue(searchPage.isProductDisplayed("Lenovo Thinkpad X1 Carbon Laptop"));
+        verifyTrue(searchPage.isProductDisplayed(nopCommerceData.getSearchTest().getLenovoResult1()));
+        verifyTrue(searchPage.isProductDisplayed(nopCommerceData.getSearchTest().getLenovoResult2()));
 
     }
 
     @Test
-    public void Search_04_Empty_Data(){
-        searchPage.enterToSearchKeywordTextbox("ThinkPad X1 Carbon");
+    public void Search_04_Product_With_Absolute_Name(){
+        searchPage.enterToSearchKeywordTextbox(nopCommerceData.getSearchTest().getThinkPadSearch());
         searchPage.clickTheSearchButton();
 
         verifyEquals(searchPage.getTotalProductDisplayed(), 1);
-        verifyTrue(searchPage.isProductDisplayed("Lenovo Thinkpad X1 Carbon Laptop"));
+        verifyTrue(searchPage.isProductDisplayed(nopCommerceData.getSearchTest().getLenovoThinkpadResult()));
     }
 
     @Test
-    public void Search_05_Empty_Data(){
-        searchPage.enterToSearchKeywordTextbox("Apple Macbook Pro");
+    public void Search_05_Advanced_Search_With_Parent_Categories(){
+        searchPage.enterToSearchKeywordTextbox(nopCommerceData.getSearchTest().getAppleSearch());
         searchPage.checkOnAdvancedSearchCheckbox();
-        searchPage.selectItemInCategoryDropDown("Computers");
+        searchPage.selectItemInCategoryDropDown(nopCommerceData.getSearchTest().getCategorySelect());
         searchPage.uncheckCategoryCheckbox();
 
-        verifyEquals(searchPage.getNoResultValidation(), "No products were found that matched your criteria.");
+        verifyEquals(searchPage.getNoResultValidation(), nopCommerceData.getSearchTest().getNoResultValidation());
     }
 
     @Test
-    public void Search_06_Empty_Data(){
-        searchPage.enterToSearchKeywordTextbox("Apple Macbook Pro");
+    public void Search_06_Advanced_Search_With_Sub_Categories(){
+        searchPage.enterToSearchKeywordTextbox(nopCommerceData.getSearchTest().getAppleSearch());
         searchPage.checkOnAdvancedSearchCheckbox();
-        searchPage.selectItemInCategoryDropDown("Computers");
+        searchPage.selectItemInCategoryDropDown(nopCommerceData.getSearchTest().getCategorySelect());
         searchPage.checkOnCategoryCheckbox();
         searchPage.clickTheSearchButton();
 
         verifyEquals(searchPage.getTotalProductDisplayed(), 1);
-        verifyTrue(searchPage.isProductDisplayed("Apple Macbook Pro 13-inch"));
+        verifyTrue(searchPage.isProductDisplayed(nopCommerceData.getSearchTest().getAppleResult()));
     }
 
     @Test
-    public void Search_07_Empty_Data(){
-        searchPage.enterToSearchKeywordTextbox("Apple Macbook Pro");
+    public void Search_07_Advanced_Search_With_Incorrect_Manufacturer(){
+        searchPage.enterToSearchKeywordTextbox(nopCommerceData.getSearchTest().getAppleSearch());
         searchPage.checkOnAdvancedSearchCheckbox();
-        searchPage.selectItemInCategoryDropDown("Computers");
+        searchPage.selectItemInCategoryDropDown(nopCommerceData.getSearchTest().getCategorySelect());
         searchPage.checkOnCategoryCheckbox();
-        searchPage.selectItemInManuFacturerDropdown("HP");
+        searchPage.selectItemInManuFacturerDropdown(nopCommerceData.getSearchTest().getManufacturerHPSelect());
         searchPage.clickTheSearchButton();
 
-        verifyEquals(searchPage.getNoResultValidation(), "No products were found that matched your criteria.");
+        verifyEquals(searchPage.getNoResultValidation(), nopCommerceData.getSearchTest().getNoResultValidation());
     }
 
     @Test
-    public void Search_08_Empty_Data(){
-        searchPage.enterToSearchKeywordTextbox("Apple Macbook Pro");
+    public void Search_08_Advanced_Search_With_Correct_Manufacturer(){
+        searchPage.enterToSearchKeywordTextbox(nopCommerceData.getSearchTest().getAppleSearch());
         searchPage.checkOnAdvancedSearchCheckbox();
-        searchPage.selectItemInCategoryDropDown("Computers");
+        searchPage.selectItemInCategoryDropDown(nopCommerceData.getSearchTest().getCategorySelect());
         searchPage.checkOnCategoryCheckbox();
-        searchPage.selectItemInManuFacturerDropdown("Apple");
+        searchPage.selectItemInManuFacturerDropdown(nopCommerceData.getSearchTest().getManufacturerAppleSelect());
         searchPage.clickTheSearchButton();
 
         verifyEquals(searchPage.getTotalProductDisplayed(), 1);
-        verifyTrue(searchPage.isProductDisplayed("Apple MacBook Pro 13-inch"));
+        verifyTrue(searchPage.isProductDisplayed(nopCommerceData.getSearchTest().getAppleResult()));
     }
 
     @AfterClass
     public void afterClass(){
-        driver.quit();
+        closeBrowserDriver();
     }
 
-    WebDriver driver;
-    UserHomePO homePage;
-    UserRegisterPO registerPage;
-    UserLoginPO loginPage;
-    UserSearchPO searchPage;
-    FakerConfig fakerConfig, faker;
-    String firstName, lastName, email, company, password;
-
+    private WebDriver driver;
+    private UserHomePO homePage;
+    private UserSearchPO searchPage;
+    private NopCommerceData nopCommerceData;
 }

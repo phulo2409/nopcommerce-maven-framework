@@ -121,7 +121,7 @@ public class TM_03_MyAccountTest extends BaseTest {
     }
     @AfterClass
     public void afterClass(){
-        driver.quit();
+        closeBrowserDriver();
     }
 
     WebDriver driver;

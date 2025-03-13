@@ -1,0 +1,17 @@
+{
+  "searchTest": {
+    "warningValidation": "Search term minimum length is 3 characters",
+    "macbook2050Search": "Macbook Pro 2050",
+    "noResultValidation": "No products were found that matched your criteria.",
+    "lenovoSearch": "Lenovo",
+    "lenovoResult1": "Lenovo IdeaCentre 600 All-in-One PC",
+    "lenovoResult2": "Lenovo Thinkpad X1 Carbon Laptop",
+    "thinkPadSearch": "ThinkPad X1 Carbon",
+    "lenovoThinkpadResult": "Lenovo Thinkpad X1 Carbon Laptop",
+    "appleSearch": "Apple Macbook Pro",
+    "categorySelect": "Computers",
+    "appleResult": "Apple Macbook Pro 13-inch",
+    "manufacturerHPSelect": "HP",
+    "manufacturerAppleSelect": "Apple"
+  }
+}

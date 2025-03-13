@@ -2,9 +2,11 @@ package common;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -53,7 +55,7 @@ private WebDriver driver;
         return driver.findElement(getByLocator(locator));
     }
 
-    private List<WebElement> getListElement(WebDriver driver, String locator){
+    protected List<WebElement> getListElement(WebDriver driver, String locator){
         return driver.findElements(getByLocator(locator));
     }
 
@@ -118,6 +120,10 @@ private WebDriver driver;
         }
     }
 
+    public void overideGlobalTimeout(WebDriver driver, long timeInSecond){
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeInSecond));
+    }
+
     protected void selectItemInDropdown(WebDriver driver, String locator, String textItem){
         new Select(getElement(driver, locator)).selectByVisibleText(textItem);
     }
@@ -133,6 +139,22 @@ private WebDriver driver;
     protected boolean isElementDisplayed(WebDriver driver, String locator, String... restParameter){
         return getElement(driver, castParameter(locator, restParameter)).isDisplayed();
     }
+
+    public boolean isElementUndisplayed(WebDriver driver, String locator){
+        overideGlobalTimeout(driver, GlobalConstants.SHORT_TIMEOUT);
+        List<WebElement> elements = getListElement(driver, locator);
+        overideGlobalTimeout(driver, GlobalConstants.LONG_TIMEOUT);
+
+        if (elements.size() == 0){// Case 3 - Verify Confirm Email textbox is not displayed
+            return true;
+        } else if (elements.size() > 0 && elements.get(0).isDisplayed()){ // Case 2 - Verify Confirm Email textbox is not displayed
+            return true;
+        } else { // Case 1 - Verify Confirm Email textbox is displayed
+            return false;
+        }
+    }
+
+
 
     protected boolean isElementSelected(WebDriver driver, String locator){
         return getElement(driver, locator).isSelected();
@@ -208,12 +230,36 @@ private WebDriver driver;
         }
     }
 
-    protected void sleepInSecond(long timeInSeconds){
+    public void sleepInSecond(long timeInSeconds){
         try {
             Thread.sleep(timeInSeconds*1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean isPageLoadedSuccess() {
+        WebDriverWait explicitWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return (Boolean) jsExecutor.executeScript("return (window.jQuery != null) && (jQuery.active === 0);");
+            }
+        };
+
+        ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return jsExecutor.executeScript("return document.readyState").toString().equals("complete");
+            }
+        };
+        return explicitWait.until(jQueryLoad) && explicitWait.until(jsLoad);
+    }
+
+    protected boolean waitForListElementInvisible(WebDriver driver, String locator){
+        return new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT))
+                .until(ExpectedConditions.invisibilityOfAllElements(getListElement(driver, locator)));
     }
 
     @Step("Verify: Success Bar Notification is displayed")

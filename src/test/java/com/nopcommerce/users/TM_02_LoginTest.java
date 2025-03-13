@@ -12,7 +12,7 @@ import pageObjects.users.UserLoginPO;
 import pageObjects.users.UserRegisterPO;
 import utilities.FakerConfig;
 
-public class TM_01_LoginTest extends BaseTest {
+public class TM_02_LoginTest extends BaseTest {
 
     @Parameters({"browser", "url"})
     @BeforeClass
@@ -88,7 +88,7 @@ public class TM_01_LoginTest extends BaseTest {
 
     @AfterClass
     public void afterClass(){
-        driver.quit();
+        closeBrowserDriver();
     }
 
     WebDriver driver;
