@@ -10,6 +10,7 @@ import pageObjects.PageGenerator;
 import pageObjects.users.UserHomePO;
 import pageObjects.users.UserRegisterPO;
 import utilities.FakerConfig;
+import utilities.NopCommerceData;
 
 public class TM_01_RegisterTest extends BaseTest {
 
@@ -17,15 +18,13 @@ public class TM_01_RegisterTest extends BaseTest {
     @BeforeClass
     public void beforeClass(String browser, String url){
         driver = getBrowserDriver(browser, url);
+
+        nopCommerceData = NopCommerceData.getNopCommerceData();
+        fakerConfig = FakerConfig.getFaker();
+        email = fakerConfig.getEmailAddress();
+
         homePage = PageGenerator.getPageGenerator().getUserHomePage(driver);
         registerPage = homePage.openRegisterPage();
-
-        fakerConfig = FakerConfig.getFaker();
-        firstName = fakerConfig.getFirstName();
-        lastName = fakerConfig.getLastName();
-        email = fakerConfig.getEmailAddress();
-        company = fakerConfig.getCompany();
-        password = fakerConfig.getPassword();
     }
 
     @Test
@@ -40,12 +39,12 @@ public class TM_01_RegisterTest extends BaseTest {
 
     @Test
     public void Register_02_Invalid_Email(){
-        registerPage.enterToFirstNameTextbox(firstName);
-        registerPage.enterToLastNameTextbox(lastName);
+        registerPage.enterToFirstNameTextbox(nopCommerceData.getFirstName());
+        registerPage.enterToLastNameTextbox(nopCommerceData.getLastName());
         registerPage.enterToEmailTextbox("phulo@gmail");
-        registerPage.enterToCompanyTextbox(company);
-        registerPage.enterToPasswordTextbox(password);
-        registerPage.enterToConfirmPasswordTextbox(password);
+        registerPage.enterToCompanyTextbox(nopCommerceData.getCompany());
+        registerPage.enterToPasswordTextbox(nopCommerceData.getPassword());
+        registerPage.enterToConfirmPasswordTextbox(nopCommerceData.getPassword());
         registerPage.clickTheRegisterButton();
 
         verifyEquals(registerPage.getEmailValidationMessage(), "Wrong email");
@@ -53,12 +52,12 @@ public class TM_01_RegisterTest extends BaseTest {
 
     @Test
     public void Register_03_Valid_Data(){
-        registerPage.enterToFirstNameTextbox(firstName);
-        registerPage.enterToLastNameTextbox(lastName);
+        registerPage.enterToFirstNameTextbox(nopCommerceData.getFirstName());
+        registerPage.enterToLastNameTextbox(nopCommerceData.getLastName());
         registerPage.enterToEmailTextbox(email);
-        registerPage.enterToCompanyTextbox(company);
-        registerPage.enterToPasswordTextbox(password);
-        registerPage.enterToConfirmPasswordTextbox(password);
+        registerPage.enterToCompanyTextbox(nopCommerceData.getCompany());
+        registerPage.enterToPasswordTextbox(nopCommerceData.getPassword());
+        registerPage.enterToConfirmPasswordTextbox(nopCommerceData.getPassword());
         registerPage.clickTheRegisterButton();
 
         verifyEquals(registerPage.getRegisterSuccessMessage(), "Your registration completed");
@@ -69,12 +68,12 @@ public class TM_01_RegisterTest extends BaseTest {
         homePage = registerPage.clickToLogoutLink();
         registerPage = homePage.openRegisterPage();
 
-        registerPage.enterToFirstNameTextbox("Hoang");
-        registerPage.enterToLastNameTextbox("Nguyen");
+        registerPage.enterToFirstNameTextbox(nopCommerceData.getFirstName());
+        registerPage.enterToLastNameTextbox(nopCommerceData.getLastName());
         registerPage.enterToEmailTextbox(email);
-        registerPage.enterToCompanyTextbox("Hoang Nguyen Corp");
-        registerPage.enterToPasswordTextbox("123456789");
-        registerPage.enterToConfirmPasswordTextbox("123456789");
+        registerPage.enterToCompanyTextbox(nopCommerceData.getCompany());
+        registerPage.enterToPasswordTextbox(nopCommerceData.getPassword());
+        registerPage.enterToConfirmPasswordTextbox(nopCommerceData.getPassword());
         registerPage.clickTheRegisterButton();
 
         verifyEquals(registerPage.getRegisterErrorMessage(), "The specified email already exists");
@@ -82,10 +81,10 @@ public class TM_01_RegisterTest extends BaseTest {
 
     @Test
     public void Register_05_Password_Less_Than_6_Characters(){
-        registerPage.enterToFirstNameTextbox(firstName);
-        registerPage.enterToLastNameTextbox(lastName);
+        registerPage.enterToFirstNameTextbox(nopCommerceData.getFirstName());
+        registerPage.enterToLastNameTextbox(nopCommerceData.getLastName());
         registerPage.enterToEmailTextbox(email);
-        registerPage.enterToCompanyTextbox(company);
+        registerPage.enterToCompanyTextbox(nopCommerceData.getCompany());
         registerPage.enterToPasswordTextbox("12345");
         registerPage.enterToConfirmPasswordTextbox("12345");
         registerPage.clickTheRegisterButton();
@@ -95,10 +94,10 @@ public class TM_01_RegisterTest extends BaseTest {
 
     @Test
     public void Register_06_Password_Does_Not_Match_Confirm_Password(){
-        registerPage.enterToFirstNameTextbox(firstName);
-        registerPage.enterToLastNameTextbox(lastName);
+        registerPage.enterToFirstNameTextbox(nopCommerceData.getFirstName());
+        registerPage.enterToLastNameTextbox(nopCommerceData.getLastName());
         registerPage.enterToEmailTextbox(email);
-        registerPage.enterToCompanyTextbox(company);
+        registerPage.enterToCompanyTextbox(nopCommerceData.getCompany());
         registerPage.enterToPasswordTextbox("123456789");
         registerPage.enterToConfirmPasswordTextbox("987654321");
         registerPage.clickTheRegisterButton();
@@ -111,9 +110,10 @@ public class TM_01_RegisterTest extends BaseTest {
         closeBrowserDriver();
     }
 
-    WebDriver driver;
-    UserHomePO homePage;
-    UserRegisterPO registerPage;
-    FakerConfig fakerConfig;
-    String firstName, lastName, email, company, password;
+    private WebDriver driver;
+    private UserHomePO homePage;
+    private UserRegisterPO registerPage;
+    private FakerConfig fakerConfig;
+    private NopCommerceData nopCommerceData;
+    private String email;
 }

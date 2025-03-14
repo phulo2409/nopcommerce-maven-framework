@@ -11,6 +11,7 @@ import pageObjects.users.UserHomePO;
 import pageObjects.users.UserLoginPO;
 import pageObjects.users.UserRegisterPO;
 import utilities.FakerConfig;
+import utilities.NopCommerceData;
 
 public class TM_02_LoginTest extends BaseTest {
 
@@ -18,18 +19,13 @@ public class TM_02_LoginTest extends BaseTest {
     @BeforeClass
     public void beforeClass(String browser, String url) {
         driver = getBrowserDriver(browser, url);
+        nopCommerceData = NopCommerceData.getNopCommerceData();
         fakerConfig = FakerConfig.getFaker();
-
-        fakerConfig = FakerConfig.getFaker();
-        firstName = fakerConfig.getFirstName();
-        lastName = fakerConfig.getLastName();
         email = fakerConfig.getEmailAddress();
-        company = fakerConfig.getCompany();
-        password = fakerConfig.getPassword();
 
         homePage = PageGenerator.getPageGenerator().getUserHomePage(driver);
         registerPage = homePage.openRegisterPage();
-        registerPage.createAnAccount(firstName, lastName, email, company, password);
+        registerPage.createAnAccount(nopCommerceData.getFirstName(), nopCommerceData.getLastName(), email, nopCommerceData.getCompany(), nopCommerceData.getPassword());
         homePage = registerPage.clickToLogoutLink();
         loginPage = homePage.openLoginPage();
 
@@ -53,7 +49,7 @@ public class TM_02_LoginTest extends BaseTest {
     @Test
     public void Login_03_Login_With_Unregistered_Email(){
         loginPage.enterToEmailTextbox("phulo_neverregister@gmail.com");
-        loginPage.enterToPasswordTextbox(password);
+        loginPage.enterToPasswordTextbox(nopCommerceData.getPassword());
         loginPage.clickTheLogInButton();
 
         verifyEquals(loginPage.getLoginValidation(), "Login was unsuccessful. Please correct the errors and try again.\nNo customer account found");
@@ -79,7 +75,7 @@ public class TM_02_LoginTest extends BaseTest {
     @Test
     public void Login_06_Login_With_Registered_Email_And_Incorrect_Password(){
         loginPage.enterToEmailTextbox(email);
-        loginPage.enterToPasswordTextbox(password);
+        loginPage.enterToPasswordTextbox(nopCommerceData.getPassword());
         homePage = loginPage.clickTheLogInButton();
 
         verifyTrue(homePage.isWelcomeTitleDisplayed());
@@ -91,10 +87,11 @@ public class TM_02_LoginTest extends BaseTest {
         closeBrowserDriver();
     }
 
-    WebDriver driver;
-    UserHomePO homePage;
-    UserRegisterPO registerPage;
-    UserLoginPO loginPage;
-    FakerConfig fakerConfig;
-    String firstName, lastName, email, company, password;
+    private WebDriver driver;
+    private UserHomePO homePage;
+    private UserRegisterPO registerPage;
+    private UserLoginPO loginPage;
+    private FakerConfig fakerConfig;
+    private NopCommerceData nopCommerceData;
+    private String email;
 }

@@ -11,4 +11,6 @@ public class UserProductListPUI {
     public final static String PREVIOUS_PAGE_BUTTON = "Xpath=//div[@class='pager']//li[@class='previous-page']";
     public final static String CURRENT_PAGE_BUTTON = "Xpath=//div[@class='pager']//li[@class='current-page']";
     public final static String PAGING = "Xpath=//div[@class='pager']";
+    public final static String DYNAMIC_ADD_TO_COMPARE_BUTTON_BY_PRODUCT_NAME = "Xpath=//h2[@class='product-title' and normalize-space()='%s']/following-sibling::div[@class='add-info']//button[contains(@class, 'add-to-compare-list-button')]";
+    public final static String NOTIFICATION_MESSAGE_LINK = "Xpath=//p[@class='content']/a";
 }

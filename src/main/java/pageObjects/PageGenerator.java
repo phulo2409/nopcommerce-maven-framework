@@ -2,6 +2,7 @@ package pageObjects;
 
 import org.openqa.selenium.WebDriver;
 import pageObjects.users.*;
+import pageUIs.users.UserRecentlyViewedProductsPUI;
 
 public class PageGenerator {
 
@@ -49,7 +50,23 @@ public class PageGenerator {
         return new UserSearchPO(driver);
     }
 
+    public UserWishlistPO getWishList(WebDriver driver){
+        return new UserWishlistPO(driver);
+    }
 
+    public UserWishlistSharePO getWishListShare(WebDriver driver){
+        return new UserWishlistSharePO(driver);
+    }
 
+    public UserShoppingCartPO getShoppingCart(WebDriver driver){
+        return new UserShoppingCartPO(driver);
+    }
 
+    public UserCompareProductsPO getCompareProduct(WebDriver driver){
+        return new UserCompareProductsPO(driver);
+    }
+
+    public UserRecentlyViewedProductsPO getRecentlyViewedProducts(WebDriver driver){
+        return new UserRecentlyViewedProductsPO(driver);
+    }
 }

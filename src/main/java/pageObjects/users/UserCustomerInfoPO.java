@@ -53,9 +53,9 @@ public class UserCustomerInfoPO extends UserSideBarPO {
     }
 
     @Step("Verify: Male radiobutton is selected")
-    public boolean isMaleRadioSelected() {
-        waitForElementSelected(driver, UserCustomerInfoPUI.GENDER_RADIO);
-        return isElementSelected(driver, UserCustomerInfoPUI.GENDER_RADIO);
+    public boolean isGenderRadioSelected(String gender) {
+        waitForElementSelected(driver, UserCustomerInfoPUI.GENDER_RADIO, gender);
+        return isElementSelected(driver, UserCustomerInfoPUI.GENDER_RADIO, gender);
     }
 
     @Step("Verify: Get value of First Name textbox")

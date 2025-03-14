@@ -3,7 +3,9 @@ package pageObjects.users;
 import common.BasePage;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
+import pageObjects.PageGenerator;
 import pageUIs.users.UserProductPUI;
+import pageUIs.users.UserRecentlyViewedProductsPUI;
 
 public class UserProductPO extends BasePage {
     private WebDriver driver;
@@ -40,5 +42,28 @@ public class UserProductPO extends BasePage {
     public void clickSubmitReviewButton() {
         waitForElementClickable(driver, UserProductPUI.SUBMIT_REVIEW_BUTTON);
         clickToElement(driver, UserProductPUI.SUBMIT_REVIEW_BUTTON);
+    }
+
+    public void clickOnAddToWishlistButton() {
+        waitForElementClickable(driver, UserProductPUI.ADD_TO_WISHLIST_BUTT0N);
+        clickToElement(driver, UserProductPUI.ADD_TO_WISHLIST_BUTT0N);
+    }
+
+    public UserWishlistPO openWishlistPage() {
+        waitForElementClickable(driver, UserProductPUI.WISHLIST_MENU_ITEM);
+        clickToElement(driver, UserProductPUI.WISHLIST_MENU_ITEM);
+        return PageGenerator.getPageGenerator().getWishList(driver);
+    }
+
+    public UserRecentlyViewedProductsPO openRecentlyViewedProductsPage(){
+        waitForElementClickable(driver, UserProductPUI.RECENTLY_VIEWED_PRODUCTS_LINK);
+        clickToElement(driver, UserProductPUI.RECENTLY_VIEWED_PRODUCTS_LINK);
+        return PageGenerator.getPageGenerator().getRecentlyViewedProducts(driver);
+    }
+
+    public UserProductListPO clickOnBreadcrumb(String item){
+        waitForElementClickable(driver, UserProductPUI.DYNAMIC_BREADCRUMB_ITEM, item);
+        clickToElement(driver, UserProductPUI.DYNAMIC_BREADCRUMB_ITEM, item);
+        return PageGenerator.getPageGenerator().getUserProductList(driver);
     }
 }

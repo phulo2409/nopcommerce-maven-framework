@@ -14,7 +14,6 @@ import org.testng.Assert;
 import pageObjects.PageGenerator;
 import pageObjects.users.UserCustomerInfoPO;
 import pageUIs.users.BasePageUI;
-import pageUIs.users.UserHomePUI;
 import pageUIs.users.UserSideBarPUI;
 
 import java.time.Duration;
@@ -154,14 +153,36 @@ private WebDriver driver;
         }
     }
 
+    public boolean isElementUndisplayed(WebDriver driver, String locator, String... restParameter){
+        overideGlobalTimeout(driver, GlobalConstants.SHORT_TIMEOUT);
+        List<WebElement> elements = getListElement(driver, castParameter(locator, restParameter));
+        overideGlobalTimeout(driver, GlobalConstants.LONG_TIMEOUT);
+
+        if (elements.size() == 0){// Case 3 - Verify Confirm Email textbox is not displayed
+            return true;
+        } else if (elements.size() > 0 && elements.get(0).isDisplayed()){ // Case 2 - Verify Confirm Email textbox is not displayed
+            return true;
+        } else { // Case 1 - Verify Confirm Email textbox is displayed
+            return false;
+        }
+    }
+
 
 
     protected boolean isElementSelected(WebDriver driver, String locator){
         return getElement(driver, locator).isSelected();
     }
 
+    protected boolean isElementSelected(WebDriver driver, String locator, String... restParameter){
+        return getElement(driver, castParameter(locator, restParameter)).isSelected();
+    }
+
     protected String getTextElement(WebDriver driver, String locator){
         return getElement(driver, locator).getText();
+    }
+
+    protected String getTextElement(WebDriver driver, String locator, String... restParameter){
+        return getElement(driver, castParameter(locator, restParameter)).getText();
     }
 
     protected String getElementAttribute(WebDriver driver, String locator, String attributeName){
@@ -203,9 +224,27 @@ private WebDriver driver;
         }
     }
 
+    protected void waitForElementInvisible(WebDriver driver, String locator, String... restParameter){
+        try{
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.invisibilityOfElementLocated(getByLocator(castParameter(locator, restParameter))));
+        } catch (Throwable error){
+            error.printStackTrace();
+            Assert.fail("The " + locator + " isn't invisible after the timeout waiting period is over");
+        }
+    }
+
     protected void waitForElementSelected(WebDriver driver, String locator){
         try{
             new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.elementToBeSelected(getByLocator(locator)));
+        } catch (Throwable error){
+            error.printStackTrace();
+            Assert.fail("The " + locator + " can't be selected after the timeout waiting period is over");
+        }
+    }
+
+    protected void waitForElementSelected(WebDriver driver, String locator, String... restParameter){
+        try{
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.elementToBeSelected(getByLocator(castParameter(locator, restParameter))));
         } catch (Throwable error){
             error.printStackTrace();
             Assert.fail("The " + locator + " can't be selected after the timeout waiting period is over");
@@ -300,6 +339,27 @@ private WebDriver driver;
     public void closeTheBarNotification(WebDriver driver){
         waitForElementClickable(driver, BasePageUI.CLOSE_BAR_BUTTON);
         clickToElement(driver, BasePageUI.CLOSE_BAR_BUTTON);
-        sleepInSecond(2);
+        waitForElementInvisible(driver, BasePageUI.CLOSE_BAR_BUTTON);
     }
+
+    @Step("Click to close Bar Notification button")
+    public boolean isTextbarNotificationDisplay(WebDriver driver, String text){
+        waitForElementVisible(driver, BasePageUI.BAR_NOTIFICATION, text);
+        return isElementDisplayed(driver, BasePageUI.BAR_NOTIFICATION, text);
+    }
+
+    public boolean isProductDisplay(WebDriver driver, String productName) {
+        waitForElementVisible(driver, BasePageUI.DYNAMIC_PRODUCT_NAME, productName);
+        return isElementDisplayed(driver, BasePageUI.DYNAMIC_PRODUCT_NAME, productName);
+    }
+
+    public boolean isProductUndisplay(WebDriver driver, String productName) {
+        waitForElementInvisible(driver, BasePageUI.DYNAMIC_PRODUCT_NAME, productName);
+        return isElementUndisplayed(driver, BasePageUI.DYNAMIC_PRODUCT_NAME, productName);
+    }
+
+    public boolean waitAllLoadingIconInvisible(WebDriver driver){
+        return waitForListElementInvisible(driver, BasePageUI.AJAX_ICON);
+    }
+
 }

@@ -20,6 +20,20 @@ public class NopCommerceData {
         }
     }
 
+    @JsonProperty("firstName")
+    private String firstName;
+
+    @JsonProperty("lastName")
+    private String lastName;
+
+    @JsonProperty("company")
+    private String company;
+
+    @JsonProperty("password")
+    private String password;
+
+    @JsonProperty("gender")
+    private String gender;
 
     @JsonProperty("searchTest")
     private SearchTest searchTest;
@@ -27,26 +41,8 @@ public class NopCommerceData {
     @Data
     public static class SearchTest{
 
-        @JsonProperty("warningValidation")
-        private String warningValidation;
-
-        @JsonProperty("macbook2050Search")
-        private String macbook2050Search;
-
         @JsonProperty("noResultValidation")
         private String noResultValidation;
-
-        @JsonProperty("lenovoSearch")
-        private String lenovoSearch;
-
-        @JsonProperty("lenovoResult1")
-        private String lenovoResult1;
-
-        @JsonProperty("lenovoResult2")
-        private String lenovoResult2;
-
-        @JsonProperty("thinkPadSearch")
-        private String thinkPadSearch;
 
         @JsonProperty("lenovoThinkpadResult")
         private String lenovoThinkpadResult;
@@ -59,11 +55,5 @@ public class NopCommerceData {
 
         @JsonProperty("appleResult")
         private String appleResult;
-
-        @JsonProperty("manufacturerHPSelect")
-        private String manufacturerHPSelect;
-
-        @JsonProperty("manufacturerAppleSelect")
-        private String manufacturerAppleSelect;
     }
 }

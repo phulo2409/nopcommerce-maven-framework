@@ -18,9 +18,9 @@ public class TM_04_SearchTest extends BaseTest {
     @BeforeClass
     public void beforeClass(String browser, String url) {
         driver = getBrowserDriver(browser, url);
-        homePage = PageGenerator.getPageGenerator().getUserHomePage(driver);
         nopCommerceData = NopCommerceData.getNopCommerceData();
 
+        homePage = PageGenerator.getPageGenerator().getUserHomePage(driver);
         homePage.setCookies(driver, Login.nopCommerceCookies);
         homePage.refreshCurrentPage(driver);
         Assert.assertTrue(homePage.isMyAccountDisplayed(driver));
@@ -32,12 +32,12 @@ public class TM_04_SearchTest extends BaseTest {
         searchPage.enterToSearchKeywordTextbox("");
         searchPage.clickTheSearchButton();
 
-        verifyEquals(searchPage.getWarningValidation(), nopCommerceData.getSearchTest().getWarningValidation());
+        verifyEquals(searchPage.getWarningValidation(), "Search term minimum length is 3 characters");
     }
 
     @Test
     public void Search_02_Data_Not_Exist(){
-        searchPage.enterToSearchKeywordTextbox(nopCommerceData.getSearchTest().getMacbook2050Search());
+        searchPage.enterToSearchKeywordTextbox("Macbook Pro 2050");
         searchPage.clickTheSearchButton();
 
         verifyEquals(searchPage.getNoResultValidation(), nopCommerceData.getSearchTest().getNoResultValidation());
@@ -45,18 +45,18 @@ public class TM_04_SearchTest extends BaseTest {
 
     @Test
     public void Search_03_Product_With_Related_Name(){
-        searchPage.enterToSearchKeywordTextbox(nopCommerceData.getSearchTest().getLenovoSearch());
+        searchPage.enterToSearchKeywordTextbox("Lenovo");
         searchPage.clickTheSearchButton();
 
         verifyEquals(searchPage.getTotalProductDisplayed(), 2);
-        verifyTrue(searchPage.isProductDisplayed(nopCommerceData.getSearchTest().getLenovoResult1()));
-        verifyTrue(searchPage.isProductDisplayed(nopCommerceData.getSearchTest().getLenovoResult2()));
+        verifyTrue(searchPage.isProductDisplayed("Lenovo IdeaCentre 600 All-in-One PC"));
+        verifyTrue(searchPage.isProductDisplayed(nopCommerceData.getSearchTest().getLenovoThinkpadResult()));
 
     }
 
     @Test
     public void Search_04_Product_With_Absolute_Name(){
-        searchPage.enterToSearchKeywordTextbox(nopCommerceData.getSearchTest().getThinkPadSearch());
+        searchPage.enterToSearchKeywordTextbox("ThinkPad X1 Carbon");
         searchPage.clickTheSearchButton();
 
         verifyEquals(searchPage.getTotalProductDisplayed(), 1);
@@ -91,7 +91,7 @@ public class TM_04_SearchTest extends BaseTest {
         searchPage.checkOnAdvancedSearchCheckbox();
         searchPage.selectItemInCategoryDropDown(nopCommerceData.getSearchTest().getCategorySelect());
         searchPage.checkOnCategoryCheckbox();
-        searchPage.selectItemInManuFacturerDropdown(nopCommerceData.getSearchTest().getManufacturerHPSelect());
+        searchPage.selectItemInManuFacturerDropdown("HP");
         searchPage.clickTheSearchButton();
 
         verifyEquals(searchPage.getNoResultValidation(), nopCommerceData.getSearchTest().getNoResultValidation());
@@ -103,7 +103,7 @@ public class TM_04_SearchTest extends BaseTest {
         searchPage.checkOnAdvancedSearchCheckbox();
         searchPage.selectItemInCategoryDropDown(nopCommerceData.getSearchTest().getCategorySelect());
         searchPage.checkOnCategoryCheckbox();
-        searchPage.selectItemInManuFacturerDropdown(nopCommerceData.getSearchTest().getManufacturerAppleSelect());
+        searchPage.selectItemInManuFacturerDropdown("Apple");
         searchPage.clickTheSearchButton();
 
         verifyEquals(searchPage.getTotalProductDisplayed(), 1);

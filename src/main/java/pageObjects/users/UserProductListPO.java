@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import pageObjects.PageGenerator;
 import pageUIs.users.BasePageUI;
 import pageUIs.users.UserProductListPUI;
+import pageUIs.users.UserRecentlyViewedProductsPUI;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +21,7 @@ public class UserProductListPO extends BasePage {
     }
 
     @Step("Select product with {0} title ")
-    public UserProductPO selectProductByTitle(String name) {
+    public UserProductPO openProductByTitle(String name) {
         waitForElementClickable(driver, UserProductListPUI.PRODUCT_NAME_DYNAMIC, name);
         clickToElement(driver, UserProductListPUI.PRODUCT_NAME_DYNAMIC, name);
         return PageGenerator.getPageGenerator().getUserProduct(driver);
@@ -36,7 +37,7 @@ public class UserProductListPO extends BasePage {
     public void selectSortByDropdown(String value) {
         waitForElementClickable(driver, UserProductListPUI.SORT_BY_DROPDOWN);
         selectItemInDropdown(driver, UserProductListPUI.SORT_BY_DROPDOWN, value);
-        waitForElementInvisible(driver, BasePageUI.AJAX_ICON);
+        waitAllLoadingIconInvisible(driver);
     }
 
     @Step("Verify: Name of product is sorting ascending")
@@ -105,7 +106,7 @@ public class UserProductListPO extends BasePage {
     public void selectDisplayPerPageDropdown(String number) {
         waitForElementClickable(driver, UserProductListPUI.DISPLAY_PER_PAGE_DROPDOWN);
         selectItemInDropdown(driver, UserProductListPUI.DISPLAY_PER_PAGE_DROPDOWN, number);
-        waitForElementInvisible(driver, BasePageUI.AJAX_ICON);
+        waitAllLoadingIconInvisible(driver);
     }
 
     @Step("Verify: 'Next page icon' is displayed")
@@ -138,5 +139,18 @@ public class UserProductListPO extends BasePage {
         clickToElement(driver, UserProductListPUI.NEXT_PAGE_BUTTON);
         waitForElementInvisible(driver, BasePageUI.AJAX_ICON);
     }
+
+    public void clickCompareProductButtonByProductName(String productName) {
+        waitForElementClickable(driver, UserProductListPUI.DYNAMIC_ADD_TO_COMPARE_BUTTON_BY_PRODUCT_NAME, productName);
+        clickToElement(driver, UserProductListPUI.DYNAMIC_ADD_TO_COMPARE_BUTTON_BY_PRODUCT_NAME, productName);
+        waitAllLoadingIconInvisible(driver);
+    }
+
+    public UserCompareProductsPO clickOnCompareLink() {
+        waitForElementClickable(driver, UserProductListPUI.NOTIFICATION_MESSAGE_LINK);
+        clickToElement(driver, UserProductListPUI.NOTIFICATION_MESSAGE_LINK);
+        return PageGenerator.getPageGenerator().getCompareProduct(driver);
+    }
+
 
 }
