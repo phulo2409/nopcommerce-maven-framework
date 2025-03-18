@@ -3,13 +3,19 @@ package com.nopcommerce.users;
 import com.nopcommerce.common.Login;
 import common.BaseTest;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageObjects.PageGenerator;
-import pageObjects.users.*;
+import pageObjects.users.dashboard.UserHomePO;
+import pageObjects.users.product.UserCompareProductsPO;
+import pageObjects.users.product.UserProductListPO;
+import pageObjects.users.product.UserProductPO;
+import pageObjects.users.product.UserRecentlyViewedProductsPO;
+import pageObjects.users.shoppingCart.UserShoppingCartPO;
+import pageObjects.users.wishlist.UserWishlistPO;
+import pageObjects.users.wishlist.UserWishlistSharePO;
 import utilities.NopCommerceData;
 
 public class TM_06_WishlistCompareRecentView extends BaseTest {
@@ -23,7 +29,7 @@ public class TM_06_WishlistCompareRecentView extends BaseTest {
 
         homePage.setCookies(driver, Login.nopCommerceCookies);
         homePage.refreshCurrentPage(driver);
-        Assert.assertTrue(homePage.isMyAccountDisplayed(driver));
+        homePage.waitForMyAccountDisplay();
         homePage.openHeaderMenuBarPage(driver,nopCommerceData.getProductItem().getComputerBreadcrumb(), nopCommerceData.getProductItem().getDesktopsBreadcrumb());
         productListPage = PageGenerator.getPageGenerator().getUserProductList(driver);
         productPage = productListPage.openProductByTitle(nopCommerceData.getProductItem().getLenovoItem());
@@ -48,7 +54,7 @@ public class TM_06_WishlistCompareRecentView extends BaseTest {
 
     @Test
     public void TC_02_Add_Product_To_Cart_From_Wishlist_Page(){
-        productPage = wishlistSharePage.clickToProductName(nopCommerceData.getProductItem().getLenovoItem());
+        productPage = wishlistSharePage.clickOnProductName(nopCommerceData.getProductItem().getLenovoItem());
         wishlistPage = productPage.openWishlistPage();
 
         shoppingCartPage = wishlistPage.addProductToCart(nopCommerceData.getProductItem().getLenovoItem());

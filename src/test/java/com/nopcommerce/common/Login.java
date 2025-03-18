@@ -6,10 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 import pageObjects.PageGenerator;
-import pageObjects.users.UserHomePO;
-import pageObjects.users.UserLoginPO;
-import pageObjects.users.UserRegisterPO;
-import pageObjects.users.UserSearchPO;
+import pageObjects.users.dashboard.UserHomePO;
+import pageObjects.users.login.UserLoginPO;
+import pageObjects.users.login.UserRegisterPO;
 import utilities.FakerConfig;
 import utilities.NopCommerceData;
 
@@ -34,7 +33,6 @@ public class Login extends BaseTest {
         homePage = loginPage.loginUserAccount(email, nopCommerceData.getPassword());
 
         nopCommerceCookies = homePage.getAllCookies(driver);
-
         closeBrowserDriver();
     }
 
@@ -44,6 +42,6 @@ public class Login extends BaseTest {
     private UserLoginPO loginPage;
     private FakerConfig fakerConfig, faker;
     private NopCommerceData nopCommerceData;
-    private String email, company, password;
+    private String email;
     public static Set<Cookie> nopCommerceCookies;
 }

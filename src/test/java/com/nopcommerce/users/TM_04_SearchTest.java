@@ -3,13 +3,13 @@ package com.nopcommerce.users;
 import com.nopcommerce.common.Login;
 import common.BaseTest;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageObjects.PageGenerator;
-import pageObjects.users.*;
+import pageObjects.users.dashboard.UserHomePO;
+import pageObjects.users.dashboard.UserSearchPO;
 import utilities.NopCommerceData;
 
 public class TM_04_SearchTest extends BaseTest {
@@ -23,7 +23,7 @@ public class TM_04_SearchTest extends BaseTest {
         homePage = PageGenerator.getPageGenerator().getUserHomePage(driver);
         homePage.setCookies(driver, Login.nopCommerceCookies);
         homePage.refreshCurrentPage(driver);
-        Assert.assertTrue(homePage.isMyAccountDisplayed(driver));
+        homePage.waitForMyAccountDisplay();
         searchPage = homePage.openSearchPage();
     }
 
@@ -49,8 +49,8 @@ public class TM_04_SearchTest extends BaseTest {
         searchPage.clickTheSearchButton();
 
         verifyEquals(searchPage.getTotalProductDisplayed(), 2);
-        verifyTrue(searchPage.isProductDisplayed("Lenovo IdeaCentre 600 All-in-One PC"));
-        verifyTrue(searchPage.isProductDisplayed(nopCommerceData.getSearchTest().getLenovoThinkpadResult()));
+        verifyTrue(searchPage.isProductItemTitleDisplayed("Lenovo IdeaCentre 600 All-in-One PC"));
+        verifyTrue(searchPage.isProductItemTitleDisplayed(nopCommerceData.getSearchTest().getLenovoThinkpadResult()));
 
     }
 
@@ -60,7 +60,7 @@ public class TM_04_SearchTest extends BaseTest {
         searchPage.clickTheSearchButton();
 
         verifyEquals(searchPage.getTotalProductDisplayed(), 1);
-        verifyTrue(searchPage.isProductDisplayed(nopCommerceData.getSearchTest().getLenovoThinkpadResult()));
+        verifyTrue(searchPage.isProductItemTitleDisplayed(nopCommerceData.getSearchTest().getLenovoThinkpadResult()));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class TM_04_SearchTest extends BaseTest {
         searchPage.clickTheSearchButton();
 
         verifyEquals(searchPage.getTotalProductDisplayed(), 1);
-        verifyTrue(searchPage.isProductDisplayed(nopCommerceData.getSearchTest().getAppleResult()));
+        verifyTrue(searchPage.isProductItemTitleDisplayed(nopCommerceData.getSearchTest().getAppleResult()));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class TM_04_SearchTest extends BaseTest {
         searchPage.checkOnAdvancedSearchCheckbox();
         searchPage.selectItemInCategoryDropDown(nopCommerceData.getSearchTest().getCategorySelect());
         searchPage.checkOnCategoryCheckbox();
-        searchPage.selectItemInManuFacturerDropdown("HP");
+        searchPage.selectItemInManufacturerDropdown("HP");
         searchPage.clickTheSearchButton();
 
         verifyEquals(searchPage.getNoResultValidation(), nopCommerceData.getSearchTest().getNoResultValidation());
@@ -103,11 +103,11 @@ public class TM_04_SearchTest extends BaseTest {
         searchPage.checkOnAdvancedSearchCheckbox();
         searchPage.selectItemInCategoryDropDown(nopCommerceData.getSearchTest().getCategorySelect());
         searchPage.checkOnCategoryCheckbox();
-        searchPage.selectItemInManuFacturerDropdown("Apple");
+        searchPage.selectItemInManufacturerDropdown("Apple");
         searchPage.clickTheSearchButton();
 
         verifyEquals(searchPage.getTotalProductDisplayed(), 1);
-        verifyTrue(searchPage.isProductDisplayed(nopCommerceData.getSearchTest().getAppleResult()));
+        verifyTrue(searchPage.isProductItemTitleDisplayed(nopCommerceData.getSearchTest().getAppleResult()));
     }
 
     @AfterClass

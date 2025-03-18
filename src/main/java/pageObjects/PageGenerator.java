@@ -1,8 +1,22 @@
 package pageObjects;
 
 import org.openqa.selenium.WebDriver;
-import pageObjects.users.*;
-import pageUIs.users.UserRecentlyViewedProductsPUI;
+import pageObjects.users.dashboard.UserHomePO;
+import pageObjects.users.dashboard.UserSearchPO;
+import pageObjects.users.login.UserLoginPO;
+import pageObjects.users.login.UserRegisterPO;
+import pageObjects.users.myAccount.UserAddressPO;
+import pageObjects.users.myAccount.UserChangePasswordPO;
+import pageObjects.users.myAccount.UserCustomerInfoPO;
+import pageObjects.users.myAccount.UserMyProductReviewsPO;
+import pageObjects.users.product.UserCompareProductsPO;
+import pageObjects.users.product.UserProductListPO;
+import pageObjects.users.product.UserProductPO;
+import pageObjects.users.product.UserRecentlyViewedProductsPO;
+import pageObjects.users.shoppingCart.UserCheckOutPO;
+import pageObjects.users.shoppingCart.UserShoppingCartPO;
+import pageObjects.users.wishlist.UserWishlistPO;
+import pageObjects.users.wishlist.UserWishlistSharePO;
 
 public class PageGenerator {
 

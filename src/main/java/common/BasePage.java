@@ -9,11 +9,12 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import pageObjects.PageGenerator;
-import pageObjects.users.UserCustomerInfoPO;
-import pageUIs.users.BasePageUI;
+import pageObjects.users.myAccount.UserCustomerInfoPO;
+import pageUIs.users.dashboard.BasePageUI;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Set;
 
 public class BasePage {
 private WebDriver driver;
@@ -405,6 +406,19 @@ private WebDriver driver;
     public void moveMouseOnShoppingCartMenuItem(WebDriver driver){
         waitForElementVisible(driver, BasePageUI.SHOPPING_CART_LINK);
         moveToElement(driver, BasePageUI.SHOPPING_CART_LINK);
+    }
+
+    @Step("Get all cookies")
+    public Set<Cookie> getAllCookies(WebDriver driver){
+        return driver.manage().getCookies();
+    }
+
+    @Step("Set cookies")
+    public void setCookies(WebDriver driver, Set<Cookie> cookies){
+
+        for (Cookie cookie : cookies){
+            driver.manage().addCookie(cookie);
+        }
     }
 
 }

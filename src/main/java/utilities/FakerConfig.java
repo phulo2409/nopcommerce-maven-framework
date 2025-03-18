@@ -14,18 +14,6 @@ public class FakerConfig {
         return faker.internet().emailAddress();
     }
 
-    public String getFirstName(){
-        return faker.name().firstName();
-    }
-
-    public String getLastName(){
-        return faker.name().lastName();
-    }
-
-    public String getFullName(){
-        return faker.name().fullName();
-    }
-
     public String getPassword(){
         return faker.internet().password(10, 20);
     }

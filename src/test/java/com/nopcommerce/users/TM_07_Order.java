@@ -3,13 +3,16 @@ package com.nopcommerce.users;
 import com.nopcommerce.common.Login;
 import common.BaseTest;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageObjects.PageGenerator;
-import pageObjects.users.*;
+import pageObjects.users.dashboard.UserHomePO;
+import pageObjects.users.product.UserProductListPO;
+import pageObjects.users.product.UserProductPO;
+import pageObjects.users.shoppingCart.UserCheckOutPO;
+import pageObjects.users.shoppingCart.UserShoppingCartPO;
 import utilities.FakerConfig;
 import utilities.NopCommerceData;
 
@@ -29,7 +32,7 @@ public class TM_07_Order extends BaseTest {
 
         homePage.setCookies(driver, Login.nopCommerceCookies);
         homePage.refreshCurrentPage(driver);
-        Assert.assertTrue(homePage.isMyAccountDisplayed(driver));
+        homePage.waitForMyAccountDisplay();
         homePage.openHeaderMenuBarPage(driver,nopCommerceData.getProductItem().getComputerBreadcrumb(), nopCommerceData.getProductItem().getDesktopsBreadcrumb());
         productListPage = PageGenerator.getPageGenerator().getUserProductList(driver);
 
@@ -86,7 +89,7 @@ public class TM_07_Order extends BaseTest {
     public void TC_03_Remove_From_Cart(){
         shoppingCartPage = productPage.openShoppingCartPage();
 
-        shoppingCartPage.removeProduct(nopCommerceData.getProductItem().getBuildProduct());
+        shoppingCartPage.removeProductByProductName(nopCommerceData.getProductItem().getBuildProduct());
 
         verifyEquals(shoppingCartPage.getNoDataText(), "Your Shopping Cart is empty!");
         verifyTrue(shoppingCartPage.isProductUndisplay(driver, nopCommerceData.getProductItem().getBuildProduct()));
@@ -103,9 +106,9 @@ public class TM_07_Order extends BaseTest {
 
         shoppingCartPage = productPage.openShoppingCartPage();
 
-        shoppingCartPage.updateProductQuantity(nopCommerceData.getProductItem().getLenovoItem(),"5");
+        shoppingCartPage.enterProductQuantityByProductName(nopCommerceData.getProductItem().getLenovoItem(),"5");
         verifyEquals(shoppingCartPage.getProductTotalPrice(nopCommerceData.getProductItem().getLenovoItem()), "$2,500.00");
-        shoppingCartPage.removeProduct(nopCommerceData.getProductItem().getLenovoItem());
+        shoppingCartPage.removeProductByProductName(nopCommerceData.getProductItem().getLenovoItem());
 
 
     }
@@ -121,11 +124,10 @@ public class TM_07_Order extends BaseTest {
 
         shoppingCartPage = productPage.openShoppingCartPage();
 
-        shoppingCartPage.selectGiftWrapping("No");
+        shoppingCartPage.selectGiftWrappingDropdown("No");
         shoppingCartPage.clickOnEstimateShippingButton();
 
         shoppingCartPage.configEstimateShippingPopup(nopCommerceData.getCountry(),nopCommerceData.getCity(),nopCommerceData.getZipPostal(),"Ground");
-
 
         shoppingCartPage.checkOnTermOfServiceCheckbox();
         checkOutPage = shoppingCartPage.clickOnCheckOutButton();
@@ -187,11 +189,7 @@ public class TM_07_Order extends BaseTest {
     private UserHomePO homePage;
     private UserProductListPO productListPage;
     private UserProductPO productPage;
-    private UserWishlistPO wishlistPage;
-    private UserWishlistSharePO wishlistSharePage;
     private UserShoppingCartPO shoppingCartPage;
-    private UserCompareProductsPO compareProductsPage;
-    private UserRecentlyViewedProductsPO recentlyViewedProductsPage;
     private UserCheckOutPO checkOutPage;
     private NopCommerceData nopCommerceData;
     private FakerConfig fakerConfig, faker;

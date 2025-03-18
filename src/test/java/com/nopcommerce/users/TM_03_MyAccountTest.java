@@ -2,6 +2,7 @@ package com.nopcommerce.users;
 
 import com.nopcommerce.common.Login;
 import common.BaseTest;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -9,7 +10,15 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageObjects.PageGenerator;
-import pageObjects.users.*;
+import pageObjects.users.dashboard.UserHomePO;
+import pageObjects.users.login.UserLoginPO;
+import pageObjects.users.login.UserRegisterPO;
+import pageObjects.users.myAccount.UserAddressPO;
+import pageObjects.users.myAccount.UserChangePasswordPO;
+import pageObjects.users.myAccount.UserCustomerInfoPO;
+import pageObjects.users.myAccount.UserMyProductReviewsPO;
+import pageObjects.users.product.UserProductListPO;
+import pageObjects.users.product.UserProductPO;
 import utilities.FakerConfig;
 import utilities.NopCommerceData;
 
@@ -34,7 +43,7 @@ public class TM_03_MyAccountTest extends BaseTest {
         homePage = PageGenerator.getPageGenerator().getUserHomePage(driver);
         homePage.setCookies(driver, Login.nopCommerceCookies);
         homePage.refreshCurrentPage(driver);
-        Assert.assertTrue(homePage.isMyAccountDisplayed(driver));
+        homePage.waitForMyAccountDisplay();
         customerInfoPage = homePage.openCustomerInfoPage(driver);
     }
 

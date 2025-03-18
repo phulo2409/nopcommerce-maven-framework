@@ -7,9 +7,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageObjects.PageGenerator;
-import pageObjects.users.UserHomePO;
-import pageObjects.users.UserLoginPO;
-import pageObjects.users.UserRegisterPO;
+import pageObjects.users.dashboard.UserHomePO;
+import pageObjects.users.login.UserLoginPO;
+import pageObjects.users.login.UserRegisterPO;
 import utilities.FakerConfig;
 import utilities.NopCommerceData;
 
