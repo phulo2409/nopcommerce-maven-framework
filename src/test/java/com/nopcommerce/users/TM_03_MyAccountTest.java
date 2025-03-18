@@ -56,7 +56,7 @@ public class TM_03_MyAccountTest extends BaseTest {
 
         addressPage.addNewAddress(nopCommerceData.getFirstName(), nopCommerceData.getLastName(), email, nopCommerceData.getCompany(), country, state, cityName, address, zipcode, phoneNumber);
 
-        verifyTrue(addressPage.isSuccessBarNotificationDisplayed(driver));
+        verifyTrue(addressPage.isSuccessBarNotificationDisplayed(driver, "The new address has been added successfully."));
         addressPage.clickTheEditButton();
 
         verifyEquals(addressPage.getValueFirstNameTextbox(), nopCommerceData.getFirstName());
@@ -79,7 +79,7 @@ public class TM_03_MyAccountTest extends BaseTest {
         changePasswordPage = PageGenerator.getPageGenerator().getUserChangePassword(driver);
 
         changePasswordPage.changePassword(nopCommerceData.getPassword(), "new_" + nopCommerceData.getPassword());
-        verifyTrue(changePasswordPage.isSuccessBarNotificationDisplayed(driver));
+        verifyTrue(changePasswordPage.isSuccessBarNotificationDisplayed(driver, "Password was changed"));
 
         changePasswordPage.closeTheBarNotification(driver);
         homePage = changePasswordPage.clickToLogoutLink();

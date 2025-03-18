@@ -1,6 +1,7 @@
 package pageObjects.users;
 
 import common.BasePage;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pageUIs.users.UserCompareProductsPUI;
 
@@ -11,6 +12,7 @@ public class UserCompareProductsPO extends BasePage {
         this.driver = driver;
     }
 
+    @Step("Verify: get column index by product name {0}")
     public String getColumnIndexByProductName(String productName) {
         int rowSize = getListElement(driver, UserCompareProductsPUI.PRODUCT_NAME_LINK).size();
         String columnIndex = null;
@@ -23,12 +25,14 @@ public class UserCompareProductsPO extends BasePage {
         return columnIndex;
     }
 
+    @Step("Verify: Data are displayed in column")
     public boolean isDataColumnDisplayed(String productName, String price){
         String columnProductIndex = getColumnIndexByProductName(productName);
         waitForElementVisible(driver, UserCompareProductsPUI.DYNAMIC_DATA_COLUMN, columnProductIndex, productName, columnProductIndex, price);
         return isElementDisplayed(driver, UserCompareProductsPUI.DYNAMIC_DATA_COLUMN, columnProductIndex, productName, columnProductIndex, price);
     }
 
+    @Step("Verify: Remove button is displayed in table by {0}")
     public boolean isRemoveButtonDisplayed(String productName){
         String columnProductIndex = getColumnIndexByProductName(productName);
         waitForElementVisible(driver, UserCompareProductsPUI.DYNAMIC_REMOVE_BUTTON_BY_PRODUCT_NAME, columnProductIndex, productName, columnProductIndex);

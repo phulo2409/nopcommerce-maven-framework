@@ -13,7 +13,7 @@
         <parameter name="browser" value="edge"/>
         <classes>
             <class name="com.nopcommerce.common.Login" />
-            <class name="com.nopcommerce.users.TM_06_WishlistCompareRecentView" />
+            <class name="com.nopcommerce.users.TM_07_Order" />
         </classes>
     </test>
 

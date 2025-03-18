@@ -1,10 +1,7 @@
 package common;
 
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,7 +11,6 @@ import org.testng.Assert;
 import pageObjects.PageGenerator;
 import pageObjects.users.UserCustomerInfoPO;
 import pageUIs.users.BasePageUI;
-import pageUIs.users.UserSideBarPUI;
 
 import java.time.Duration;
 import java.util.List;
@@ -83,6 +79,25 @@ private WebDriver driver;
         getElement(driver, locator).sendKeys(value);
     }
 
+    protected void sendkeyToElement(WebDriver driver, String locator, String value, String... restParameter){
+        getElement(driver, castParameter(locator, restParameter)).clear();
+        getElement(driver, castParameter(locator, restParameter)).sendKeys(value);
+    }
+
+    protected void sendkeyToElementWithKeysChord(WebDriver driver, String locator, String value, String... restParameter){
+        getElement(driver, castParameter(locator, restParameter)).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.BACK_SPACE));
+        sleepInSecond(1);
+        getElement(driver, castParameter(locator, restParameter)).sendKeys(value);
+    }
+
+    protected void pressKeyToElement(WebDriver driver, String locator, Keys keys){
+        new Actions(driver).sendKeys(getElement(driver, locator), keys).perform();
+    }
+
+    protected void pressKeyToElement(WebDriver driver, String locator, Keys keys, String... restParameter){
+        new Actions(driver).sendKeys(getElement(driver, castParameter(locator, restParameter)), keys).perform();
+    }
+
     protected void checkToRadioButton(WebDriver driver, String locator){
         if(!getElement(driver, locator).isSelected()){
             getElement(driver, locator).click();
@@ -125,6 +140,10 @@ private WebDriver driver;
 
     protected void selectItemInDropdown(WebDriver driver, String locator, String textItem){
         new Select(getElement(driver, locator)).selectByVisibleText(textItem);
+    }
+
+    protected void selectItemInDropdown(WebDriver driver, String locator, String textItem, String... restParameter){
+        new Select(getElement(driver, castParameter(locator, restParameter))).selectByVisibleText(textItem);
     }
 
     protected String getSelectedItemInDropdown(WebDriver driver, String locator){
@@ -301,12 +320,6 @@ private WebDriver driver;
                 .until(ExpectedConditions.invisibilityOfAllElements(getListElement(driver, locator)));
     }
 
-    @Step("Verify: Success Bar Notification is displayed")
-    public boolean isSuccessBarNotificationDisplayed(WebDriver driver) {
-        waitForElementVisible(driver, UserSideBarPUI.SUCCESS_BAR_NOTIFICATION);
-        return isElementDisplayed(driver, UserSideBarPUI.SUCCESS_BAR_NOTIFICATION);
-    }
-
     @Step("Open {0} Page from header menubar")
     public void openHeaderMenuBarPage(String menuItem){
         waitForElementClickable(driver, BasePageUI.HEADER_MENU_FIRST_LEVEL, menuItem);
@@ -317,7 +330,6 @@ private WebDriver driver;
     public void openHeaderMenuBarPage(WebDriver driver, String menuItem, String menuItem2){
         waitForElementClickable(driver, BasePageUI.HEADER_MENU_FIRST_LEVEL, menuItem);
         moveToElement(driver, BasePageUI.HEADER_MENU_FIRST_LEVEL, menuItem);
-
         waitForElementClickable(driver, BasePageUI.HEADER_MENU_SECOND_LEVEL, menuItem, menuItem2);
         clickToElement(driver, BasePageUI.HEADER_MENU_FIRST_LEVEL, menuItem2);
     }
@@ -342,24 +354,57 @@ private WebDriver driver;
         waitForElementInvisible(driver, BasePageUI.CLOSE_BAR_BUTTON);
     }
 
-    @Step("Click to close Bar Notification button")
-    public boolean isTextbarNotificationDisplay(WebDriver driver, String text){
+    @Step("Verify: Success Bar Notification is displayed")
+    public boolean isSuccessBarNotificationDisplayed(WebDriver driver, String text){
         waitForElementVisible(driver, BasePageUI.BAR_NOTIFICATION, text);
         return isElementDisplayed(driver, BasePageUI.BAR_NOTIFICATION, text);
     }
 
-    public boolean isProductDisplay(WebDriver driver, String productName) {
+    @Step("Verify: Product name is displayed")
+    public boolean isProductNameDisplay(WebDriver driver, String productName) {
         waitForElementVisible(driver, BasePageUI.DYNAMIC_PRODUCT_NAME, productName);
         return isElementDisplayed(driver, BasePageUI.DYNAMIC_PRODUCT_NAME, productName);
     }
 
+    @Step("Verify: Product name is undisplayed")
     public boolean isProductUndisplay(WebDriver driver, String productName) {
         waitForElementInvisible(driver, BasePageUI.DYNAMIC_PRODUCT_NAME, productName);
         return isElementUndisplayed(driver, BasePageUI.DYNAMIC_PRODUCT_NAME, productName);
     }
 
+    @Step("Wait for all loading icon are invisible")
     public boolean waitAllLoadingIconInvisible(WebDriver driver){
         return waitForListElementInvisible(driver, BasePageUI.AJAX_ICON);
+    }
+
+    @Step("Verify: Get product name in Shopping Cart menu item")
+    public String getProductNameInCartMenuItem(WebDriver driver) {
+        waitForElementVisible(driver, BasePageUI.PRODUCT_NAME_FLYOUT_CART);
+        return getTextElement(driver, BasePageUI.PRODUCT_NAME_FLYOUT_CART);
+    }
+
+    @Step("Verify: Get text of product attribute on flyout cart")
+    public String getTextProductAttributeOnFlyoutCart(WebDriver driver){
+        waitForElementVisible(driver, BasePageUI.PRODUCT_ATTRIBUTE_FLYOUT_CART);
+        return getTextElement(driver, BasePageUI.PRODUCT_ATTRIBUTE_FLYOUT_CART);
+    }
+
+    @Step("Verify: Get total price on flyout cart")
+    public String getTotalOnFlyoutCart(WebDriver driver){
+        waitForElementVisible(driver, BasePageUI.TOTAL_FLYOUT_CART);
+        return getTextElement(driver, BasePageUI.TOTAL_FLYOUT_CART);
+    }
+
+    @Step("Verify: Get text of counting product on flyout cart")
+    public String getCountProductOnFlyoutCart(WebDriver driver){
+        waitForElementVisible(driver, BasePageUI.COUNT_PRODUCT_FLYOUT_CART);
+        return getTextElement(driver, BasePageUI.COUNT_PRODUCT_FLYOUT_CART);
+    }
+
+    @Step("Verify: Move mouse on Shopping Cart menu item")
+    public void moveMouseOnShoppingCartMenuItem(WebDriver driver){
+        waitForElementVisible(driver, BasePageUI.SHOPPING_CART_LINK);
+        moveToElement(driver, BasePageUI.SHOPPING_CART_LINK);
     }
 
 }

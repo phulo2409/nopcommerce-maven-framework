@@ -140,12 +140,14 @@ public class UserProductListPO extends BasePage {
         waitForElementInvisible(driver, BasePageUI.AJAX_ICON);
     }
 
+    @Step("Click on compare button on Prouct name {0}")
     public void clickCompareProductButtonByProductName(String productName) {
         waitForElementClickable(driver, UserProductListPUI.DYNAMIC_ADD_TO_COMPARE_BUTTON_BY_PRODUCT_NAME, productName);
         clickToElement(driver, UserProductListPUI.DYNAMIC_ADD_TO_COMPARE_BUTTON_BY_PRODUCT_NAME, productName);
         waitAllLoadingIconInvisible(driver);
     }
 
+    @Step("Click on Compare link")
     public UserCompareProductsPO clickOnCompareLink() {
         waitForElementClickable(driver, UserProductListPUI.NOTIFICATION_MESSAGE_LINK);
         clickToElement(driver, UserProductListPUI.NOTIFICATION_MESSAGE_LINK);

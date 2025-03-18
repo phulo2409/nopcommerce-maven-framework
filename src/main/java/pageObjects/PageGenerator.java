@@ -69,4 +69,8 @@ public class PageGenerator {
     public UserRecentlyViewedProductsPO getRecentlyViewedProducts(WebDriver driver){
         return new UserRecentlyViewedProductsPO(driver);
     }
+
+    public UserCheckOutPO getCheckOut(WebDriver driver){
+        return new UserCheckOutPO(driver);
+    }
 }

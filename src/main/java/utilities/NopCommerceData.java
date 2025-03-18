@@ -35,6 +35,15 @@ public class NopCommerceData {
     @JsonProperty("gender")
     private String gender;
 
+    @JsonProperty("country")
+    private String country;
+
+    @JsonProperty("city")
+    private String city;
+
+    @JsonProperty("zipPostal")
+    private String zipPostal;
+
     @JsonProperty("searchTest")
     private SearchTest searchTest;
 
@@ -55,5 +64,27 @@ public class NopCommerceData {
 
         @JsonProperty("appleResult")
         private String appleResult;
+    }
+
+    @JsonProperty("productItem")
+    private ProductItem productItem;
+
+    @Data
+    public static class ProductItem{
+
+        @JsonProperty("lenovoItem")
+        private String lenovoItem;
+
+        @JsonProperty("computerBreadcrumb")
+        private String computerBreadcrumb;
+
+        @JsonProperty("desktopsBreadcrumb")
+        private String desktopsBreadcrumb;
+
+        @JsonProperty("notebookBreadcrumb")
+        private String notebookBreadcrumb;
+
+        @JsonProperty("buildProduct")
+        private String buildProduct;
     }
 }
