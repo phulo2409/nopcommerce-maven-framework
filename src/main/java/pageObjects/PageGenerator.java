@@ -1,6 +1,7 @@
 package pageObjects;
 
 import org.openqa.selenium.WebDriver;
+import pageObjects.admin.*;
 import pageObjects.users.dashboard.UserHomePO;
 import pageObjects.users.dashboard.UserSearchPO;
 import pageObjects.users.login.UserLoginPO;
@@ -86,5 +87,29 @@ public class PageGenerator {
 
     public UserCheckOutPO getCheckOut(WebDriver driver){
         return new UserCheckOutPO(driver);
+    }
+
+    public AdminLoginPO getAdminLogin(WebDriver driver){
+        return new AdminLoginPO(driver);
+    }
+
+    public AdminDashboardPO getAdminDashboard(WebDriver driver){
+        return new AdminDashboardPO(driver);
+    }
+
+    public AdminProductPO getAdminProduct(WebDriver driver){
+        return new AdminProductPO(driver);
+    }
+
+    public AdminCustomerPO getAdminCustomer(WebDriver driver){
+        return new AdminCustomerPO(driver);
+    }
+
+    public AdminAddCustomerPO getAdminAddCustomer(WebDriver driver){
+        return new AdminAddCustomerPO(driver);
+    }
+
+    public AdminEditCustomerPO getAdminEditCustomer(WebDriver driver){
+        return new AdminEditCustomerPO(driver);
     }
 }

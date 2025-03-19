@@ -8,12 +8,12 @@
     </listeners>
 
     <parameter name="url" value="https://demo.nopcommerce.com/"/>
+    <parameter name="adminUrl" value="https://admin-demo.nopcommerce.com/login/"></parameter>
 
     <test name="Run on Edge" preserve-order="true">
         <parameter name="browser" value="edge"/>
         <classes>
-            <class name="com.nopcommerce.common.Login"></class>
-            <class name="com.nopcommerce.users.TM_07_Order" />
+            <class name="com.nopcommerce.admin.TM_01" />
         </classes>
     </test>
 

@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import pageObjects.PageGenerator;
 import pageObjects.users.myAccount.UserCustomerInfoPO;
+import pageUIs.admin.AdminAddCustomerPUI;
+import pageUIs.admin.AdminBasePageUI;
 import pageUIs.users.dashboard.BasePageUI;
 
 import java.time.Duration;
@@ -18,6 +20,10 @@ import java.util.Set;
 
 public class BasePage {
 private WebDriver driver;
+
+//    public BasePage(WebDriver driver){
+//        this.driver = driver;
+//    }
 
     protected void openPageUrl(WebDriver driver, String url){
         driver.get(url);
@@ -421,4 +427,20 @@ private WebDriver driver;
         }
     }
 
+    public void clickOnPageInSidebar(WebDriver driver, String pageName, String pageName2){
+        waitForElementClickable(driver, AdminBasePageUI.DYNAMIC_NAV_LINK, pageName);
+        clickToElement(driver, AdminBasePageUI.DYNAMIC_NAV_LINK, pageName);
+        waitForElementClickable(driver, AdminBasePageUI.DYNAMIC_NAV_LINK_OPENING, pageName2);
+        clickToElement(driver, AdminBasePageUI.DYNAMIC_NAV_LINK_OPENING, pageName2);
+    }
+
+    @Step("Wait for all loading icon are invisible")
+    public boolean waitAllLoadingIconInvisibleAdmin(WebDriver driver){
+        return waitForListElementInvisible(driver, AdminBasePageUI.AJAX_LOADING);
+    }
+
+    public String getSuccessMessage(WebDriver driver) {
+        waitForElementVisible(driver, AdminBasePageUI.SUCCESS_MESSAGE);
+        return getTextElement(driver, AdminBasePageUI.SUCCESS_MESSAGE);
+    }
 }
