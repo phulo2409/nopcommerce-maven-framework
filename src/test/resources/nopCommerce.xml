@@ -10,10 +10,10 @@
     <parameter name="url" value="https://demo.nopcommerce.com/"/>
     <parameter name="adminUrl" value="https://admin-demo.nopcommerce.com/login/"></parameter>
 
-    <test name="Run on Edge" preserve-order="true">
+    <test name="Run on Edge">
         <parameter name="browser" value="edge"/>
         <classes>
-            <class name="com.nopcommerce.admin.TM_01" />
+            <class name="com.nopcommerce.admin.AdminTest" />
         </classes>
     </test>
 

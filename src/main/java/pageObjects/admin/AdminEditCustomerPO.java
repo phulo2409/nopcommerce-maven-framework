@@ -42,4 +42,42 @@ public class AdminEditCustomerPO extends BasePage {
         clickToElement(driver, AdminEditCustomerPUI.SAVE_BUTTON);
         return PageGenerator.getPageGenerator().getAdminCustomer(driver);
     }
+
+    public void clickOnAddressTab() {
+        waitForElementClickable(driver, AdminEditCustomerPUI.ADDRESS_TAB);
+        clickToElement(driver, AdminEditCustomerPUI.ADDRESS_TAB);
+    }
+
+    public AdminAddNewAddressPO clickOnAddNewAddressButton() {
+        waitForElementClickable(driver, AdminEditCustomerPUI.ADD_NEW_ADDRESS_BUTTON);
+        clickToElement(driver, AdminEditCustomerPUI.ADD_NEW_ADDRESS_BUTTON);
+        return PageGenerator.getPageGenerator().getAdminAddNewAddress(driver);
+    }
+
+    public String getTextAddressDataRow(String firstName, String lastName, String email, String phone, String fax) {
+        return getTextElement(driver, AdminEditCustomerPUI.ADDRESS_DATA_ROW_TABLE, firstName, lastName, email, phone, fax);
+    }
+
+    public boolean isDataAddressRowUndisplayed(String firstName, String lastName, String email, String phone, String fax) {
+        return isElementUndisplayed(driver, AdminEditCustomerPUI.ADDRESS_DATA_ROW_TABLE, firstName, lastName, email, phone, fax);
+    }
+
+
+    public AdminEditAddressPO clickOnEditButtonInTableByName(String name) {
+        waitForElementClickable(driver, AdminEditCustomerPUI.DYNAMIC_EDIT_BUTTON_BY_NAME, name);
+        clickToElement(driver, AdminEditCustomerPUI.DYNAMIC_EDIT_BUTTON_BY_NAME, name);
+        return PageGenerator.getPageGenerator().getAdminEditAddress(driver);
+    }
+
+    public void clickOnDeleteButtonInAddressTable(String name) {
+        waitForElementClickable(driver, AdminEditCustomerPUI.DYNAMIC_DELETE_BUTTON_BY_NAME, name);
+        clickToElement(driver, AdminEditCustomerPUI.DYNAMIC_DELETE_BUTTON_BY_NAME, name);
+        acceptToAlert(driver);
+        waitAllLoadingIconInvisibleAdmin(driver);
+    }
+
+    public boolean noDataInTable() {
+        waitForElementVisible(driver, AdminEditCustomerPUI.NO_DATA_MESSAGE_TABLE);
+        return isElementDisplayed(driver, AdminEditCustomerPUI.NO_DATA_MESSAGE_TABLE);
+    }
 }

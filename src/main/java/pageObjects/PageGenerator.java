@@ -112,4 +112,12 @@ public class PageGenerator {
     public AdminEditCustomerPO getAdminEditCustomer(WebDriver driver){
         return new AdminEditCustomerPO(driver);
     }
+
+    public AdminAddNewAddressPO getAdminAddNewAddress(WebDriver driver){
+        return new AdminAddNewAddressPO(driver);
+    }
+
+    public AdminEditAddressPO getAdminEditAddress(WebDriver driver){
+        return new AdminEditAddressPO(driver);
+    }
 }

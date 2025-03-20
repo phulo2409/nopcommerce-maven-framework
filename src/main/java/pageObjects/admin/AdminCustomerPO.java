@@ -69,7 +69,7 @@ public class AdminCustomerPO extends BasePage {
     public AdminEditCustomerPO clickOnEditButton(String name) {
         waitForElementClickable(driver, AdminCustomerPUI.DYNAMIC_EDIT_BUTTON_BY_NAME, name);
         clickToElement(driver, AdminCustomerPUI.DYNAMIC_EDIT_BUTTON_BY_NAME, name);
-        sleepInSecond(30);
+        waitAllLoadingIconInvisibleAdmin(driver);
         return PageGenerator.getPageGenerator().getAdminEditCustomer(driver);
     }
 

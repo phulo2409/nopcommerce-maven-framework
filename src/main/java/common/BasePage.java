@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import pageObjects.PageGenerator;
+import pageObjects.admin.AdminCustomerPO;
 import pageObjects.users.myAccount.UserCustomerInfoPO;
 import pageUIs.admin.AdminAddCustomerPUI;
 import pageUIs.admin.AdminBasePageUI;
@@ -151,6 +152,14 @@ private WebDriver driver;
 
     protected void selectItemInDropdown(WebDriver driver, String locator, String textItem, String... restParameter){
         new Select(getElement(driver, castParameter(locator, restParameter))).selectByVisibleText(textItem);
+    }
+
+    private Alert waitAlertPresence(WebDriver driver){
+        return new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.alertIsPresent());
+    }
+
+    public void acceptToAlert(WebDriver driver){
+        waitAlertPresence(driver).accept();
     }
 
     protected String getSelectedItemInDropdown(WebDriver driver, String locator){

@@ -9,11 +9,10 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageObjects.PageGenerator;
 import pageObjects.admin.*;
-import pageUIs.admin.AdminCustomerPUI;
 import utilities.FakerConfig;
 import utilities.NopCommerceData;
 
-public class TM_01 extends BaseTest {
+public class AdminTest extends BaseTest {
 
     @Parameters({"browser", "adminUrl"})
     @BeforeClass
@@ -23,11 +22,13 @@ public class TM_01 extends BaseTest {
 
         fakerConfig = FakerConfig.getFaker();
         email = fakerConfig.getEmailAddress();
+        address = fakerConfig.getStreetAddress();
+        phoneNumber = fakerConfig.getPhoneNumber();
 
         loginPage = PageGenerator.getPageGenerator().getAdminLogin(driver);
         dashboardPage = loginPage.loginAdminAccount(GlobalConstants.ADMIN_EMAIL, GlobalConstants.ADMIN_PASSWORD);
     }
-/*
+
     @Test
     public void TC_01(){
         dashboardPage.clickOnPageInSidebar(driver, "Catalog", "Products");
@@ -90,10 +91,10 @@ public class TM_01 extends BaseTest {
 
         verifyTrue(productPage.getEditProductTitle().contains("Edit product details - Lenovo IdeaCentre"));
     }
-*/
+
     @Test
     public void TC_07(){
-        dashboardPage.clickOnPageInSidebar(driver, "Customers", "Customers");
+        productPage.clickOnPageInSidebar(driver, "Customers", "Customers");
         customerPage = PageGenerator.getPageGenerator().getAdminCustomer(driver);
 
         addCustomerPage = customerPage.clickOnAddNewButton();
@@ -200,11 +201,54 @@ public class TM_01 extends BaseTest {
 
         editCustomerPage = customerPage.clickOnEditButton("Edit_" + nopCommerceData.getFirstName() + " Edit_" + nopCommerceData.getLastName());
 
-        //editCustomerPage.clickOnAddNewAddressButton();
+        editCustomerPage.clickOnAddressTab();
+        addNewAddressPage = editCustomerPage.clickOnAddNewAddressButton();
 
+        addNewAddressPage.enterToFirstNameTextbox(nopCommerceData.getFirstName());
+        addNewAddressPage.enterToLastNameTextbox(nopCommerceData.getLastName());
+        addNewAddressPage.enterToEmailTextbox(email);
+        addNewAddressPage.enterToCompanyTextbox(nopCommerceData.getCompany());
+        addNewAddressPage.selectCountryDropdown(nopCommerceData.getCountry());
+        addNewAddressPage.selectStateDropdown(nopCommerceData.getCity());
+        addNewAddressPage.enterToCityTextbox(nopCommerceData.getCity());
+        addNewAddressPage.enterToAddress1Textbox(address);
+        addNewAddressPage.enterToAddress2Textbox(address);
+        addNewAddressPage.enterToZipTextbox(nopCommerceData.getZipPostal());
+        addNewAddressPage.enterToPhoneTextbox(phoneNumber);
+        addNewAddressPage.enterToFaxTextbox(phoneNumber);
+        addNewAddressPage.clickOnSaveButton();
 
+        verifyTrue(addNewAddressPage.getSuccessMessage(driver).contains("The new address has been added successfully."));
+
+        editCustomerPage = addNewAddressPage.clickOnBackLink();
+
+        verifyTrue(editCustomerPage.getTextAddressDataRow(nopCommerceData.getFirstName(), nopCommerceData.getLastName(), email, phoneNumber, phoneNumber)
+                .contains(nopCommerceData.getCountry() + "\n" + nopCommerceData.getCity() + "\n" + nopCommerceData.getCity() + "\n" + address + "\n" + address + "\n" + nopCommerceData.getZipPostal()));
     }
 
+    @Test
+    public void TC_14() {
+        editAddressPage = editCustomerPage.clickOnEditButtonInTableByName(nopCommerceData.getFirstName());
+
+        editAddressPage.enterToFirstNameTextbox("Edit_" + nopCommerceData.getFirstName());
+        editAddressPage.enterToLastNameTextbox("Edit_" + nopCommerceData.getLastName());
+        editAddressPage.enterToCompanyTextbox("Edit_" + nopCommerceData.getCompany());
+        editAddressPage.clickOnSaveButton();
+        verifyTrue(editAddressPage.getSuccessMessage(driver).contains("The address has been updated successfully."));
+
+        editCustomerPage = editAddressPage.clickOnBackLink();
+
+        verifyTrue(editCustomerPage.getTextAddressDataRow("Edit_" + nopCommerceData.getFirstName(), "Edit_" + nopCommerceData.getLastName(), email, phoneNumber, phoneNumber)
+                .contains(nopCommerceData.getCountry() + "\n" + nopCommerceData.getCity() + "\n" + nopCommerceData.getCity() + "\n" + address + "\n" + address + "\n" + nopCommerceData.getZipPostal()));
+    }
+
+    @Test
+    public void TC_15() {
+        editCustomerPage.clickOnDeleteButtonInAddressTable("Edit_" + nopCommerceData.getFirstName());
+
+        verifyTrue(editCustomerPage.noDataInTable());
+        verifyTrue(editCustomerPage.isDataAddressRowUndisplayed("Edit_" + nopCommerceData.getFirstName(), "Edit_" + nopCommerceData.getLastName(), email, phoneNumber, phoneNumber));
+    }
     @AfterClass
     public void afterClass(){
         closeBrowserDriver();
@@ -217,7 +261,9 @@ public class TM_01 extends BaseTest {
     private AdminCustomerPO customerPage;
     private AdminAddCustomerPO addCustomerPage;
     private AdminEditCustomerPO editCustomerPage;
+    private AdminAddNewAddressPO addNewAddressPage;
+    private AdminEditAddressPO editAddressPage;
     private NopCommerceData nopCommerceData;
-    private FakerConfig fakerConfig, faker;
-    private String email;
+    private FakerConfig fakerConfig;
+    private String email, address, phoneNumber;
 }
