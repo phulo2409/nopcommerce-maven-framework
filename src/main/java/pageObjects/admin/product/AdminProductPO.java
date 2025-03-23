@@ -1,8 +1,8 @@
-package pageObjects.admin;
+package pageObjects.admin.product;
 
 import common.BasePage;
 import org.openqa.selenium.WebDriver;
-import pageUIs.admin.AdminProductPUI;
+import pageUIs.admin.product.AdminProductPUI;
 
 public class AdminProductPO extends BasePage {
     private WebDriver driver;

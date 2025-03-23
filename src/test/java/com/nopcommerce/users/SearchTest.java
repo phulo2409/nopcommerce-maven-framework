@@ -12,7 +12,7 @@ import pageObjects.users.dashboard.UserHomePO;
 import pageObjects.users.dashboard.UserSearchPO;
 import utilities.NopCommerceData;
 
-public class TM_04_SearchTest extends BaseTest {
+public class SearchTest extends BaseTest {
 
     @Parameters({"browser", "url"})
     @BeforeClass

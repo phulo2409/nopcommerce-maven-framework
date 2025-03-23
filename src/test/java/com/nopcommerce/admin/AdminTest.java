@@ -8,7 +8,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageObjects.PageGenerator;
-import pageObjects.admin.*;
+import pageObjects.admin.customer.*;
+import pageObjects.admin.dashboard.AdminDashboardPO;
+import pageObjects.admin.login.AdminLoginPO;
+import pageObjects.admin.product.AdminProductPO;
 import utilities.FakerConfig;
 import utilities.NopCommerceData;
 
@@ -26,24 +29,28 @@ public class AdminTest extends BaseTest {
         phoneNumber = fakerConfig.getPhoneNumber();
 
         loginPage = PageGenerator.getPageGenerator().getAdminLogin(driver);
-        dashboardPage = loginPage.loginAdminAccount(GlobalConstants.ADMIN_EMAIL, GlobalConstants.ADMIN_PASSWORD);
+        dashboardPage = loginPage.loginAdminAccount(GlobalConstants.getGlobalConstants().getAdminEmail(), GlobalConstants.getGlobalConstants().getAdminPassword());
     }
 
     @Test
-    public void TC_01(){
+    public void Admin_01_Search_With_Product_Name(){
         dashboardPage.clickOnPageInSidebar(driver, "Catalog", "Products");
         productPage = PageGenerator.getPageGenerator().getAdminProduct(driver);
 
-        productPage.enterProductNameTextbox("Lenovo IdeaCentre");
+        productPage.enterProductNameTextbox(nopCommerceData.getProductItem().getLenovoItem());
+        
         productPage.clickSearchButton();
 
-        verifyTrue(productPage.isDataRowDisplayed("Lenovo IdeaCentre", "LE_IC_600", "$500.00"));
+        verifyTrue(productPage.isDataRowDisplayed(nopCommerceData.getProductItem().getLenovoItem(), nopCommerceData.getAdminServer().getSkuProduct(), nopCommerceData.getAdminServer().getProductPrice500()));
+        
+        
     }
 
     @Test
-    public void TC_02(){
-        productPage.enterProductNameTextbox("Lenovo IdeaCentre");
-        productPage.selectCategoryDropdown("Computers");
+    public void Admin_02_Search_With_Product_Name_Parent_Category_Unchecked(){
+        productPage.enterProductNameTextbox(nopCommerceData.getProductItem().getLenovoItem());
+        productPage.selectCategoryDropdown(nopCommerceData.getSearchTest().getCategorySelect());
+        
         productPage.uncheckOnSearchSubcategoriesCheckbox();
 
         productPage.clickSearchButton();
@@ -52,30 +59,31 @@ public class AdminTest extends BaseTest {
     }
 
     @Test
-    public void TC_03(){
-        productPage.enterProductNameTextbox("Lenovo IdeaCentre");
-        productPage.selectCategoryDropdown("Computers");
+    public void Admin_03_Search_With_Product_Name_Parent_Category_Checked(){
+        productPage.enterProductNameTextbox(nopCommerceData.getProductItem().getLenovoItem());
+        productPage.selectCategoryDropdown(nopCommerceData.getSearchTest().getCategorySelect());
         productPage.checkOnSearchSubcategoriesCheckbox();
 
         productPage.clickSearchButton();
 
-        verifyTrue(productPage.isDataRowDisplayed("Lenovo IdeaCentre", "LE_IC_600", "$500.00"));
+        verifyTrue(productPage.isDataRowDisplayed(nopCommerceData.getProductItem().getLenovoItem(), nopCommerceData.getAdminServer().getSkuProduct(), nopCommerceData.getAdminServer().getProductPrice500()));
+        
     }
 
     @Test
-    public void TC_04(){
-        productPage.enterProductNameTextbox("Lenovo IdeaCentre");
+    public void Admin_04_Search_With_Product_Name_Child_Category(){
+        productPage.enterProductNameTextbox(nopCommerceData.getProductItem().getLenovoItem());
         productPage.selectCategoryDropdown("Computers >> Desktops");
         productPage.uncheckOnSearchSubcategoriesCheckbox();
 
         productPage.clickSearchButton();
 
-        verifyTrue(productPage.isDataRowDisplayed("Lenovo IdeaCentre", "LE_IC_600", "$500.00"));
+        verifyTrue(productPage.isDataRowDisplayed(nopCommerceData.getProductItem().getLenovoItem(), nopCommerceData.getAdminServer().getSkuProduct(), nopCommerceData.getAdminServer().getProductPrice500()));
     }
 
     @Test
-    public void TC_05(){
-        productPage.enterProductNameTextbox("Lenovo IdeaCentre");
+    public void Admin_05_Search_With_Product_Name_Manufacturer(){
+        productPage.enterProductNameTextbox(nopCommerceData.getProductItem().getLenovoItem());
         productPage.selectCategoryDropdown("All");
         productPage.uncheckOnSearchSubcategoriesCheckbox();
         productPage.selectManufacturerDropdown("Apple");
@@ -86,14 +94,14 @@ public class AdminTest extends BaseTest {
     }
 
     @Test
-    public void TC_06(){
-        productPage.enterGoDirectlyToProductSKUTextbox("LE_IC_600");
+    public void Admin_06_Go_Directly_Product_SKU(){
+        productPage.enterGoDirectlyToProductSKUTextbox(nopCommerceData.getAdminServer().getSkuProduct());
 
-        verifyTrue(productPage.getEditProductTitle().contains("Edit product details - Lenovo IdeaCentre"));
+        verifyTrue(productPage.getEditProductTitle().contains("Edit product details - " + nopCommerceData.getProductItem().getLenovoItem()));
     }
 
     @Test
-    public void TC_07(){
+    public void Admin_07_Create_New_Customer(){
         productPage.clickOnPageInSidebar(driver, "Customers", "Customers");
         customerPage = PageGenerator.getPageGenerator().getAdminCustomer(driver);
 
@@ -105,67 +113,67 @@ public class AdminTest extends BaseTest {
         addCustomerPage.enterToLastNameTextbox(nopCommerceData.getLastName());
         addCustomerPage.checkOnGenderRadio(nopCommerceData.getGender());
         addCustomerPage.enterToCompanyTextbox(nopCommerceData.getCompany());
-        addCustomerPage.selectCustomerRolesDropdown("Guests");
+        addCustomerPage.selectCustomerRolesDropdown(nopCommerceData.getAdminServer().getGuestsRole());
         addCustomerPage.checkOnActiveCheckbox();
         addCustomerPage.enterToAdminComment("Add new comment");
         addCustomerPage.clickOnSaveAndContinueEditButton();
 
-        verifyTrue(addCustomerPage.getSuccessMessage().contains("The new customer has been added successfully."));
+        verifyTrue(addCustomerPage.getSuccessMessage(driver).contains("The new customer has been added successfully."));
 
         customerPage = addCustomerPage.clickOnBackLink();
-        customerPage.selectCustomerRolesDropdown("Guests");
+        customerPage.selectCustomerRolesDropdown(nopCommerceData.getAdminServer().getGuestsRole());
         customerPage.clickOnSearchButton();
 
-        customerPage.isDataRowDisplayed(nopCommerceData.getFirstName() + " " + nopCommerceData.getLastName(), "Guests", nopCommerceData.getCompany());
+        customerPage.isDataRowDisplayed(nopCommerceData.getFirstName() + " " + nopCommerceData.getLastName(), nopCommerceData.getAdminServer().getGuestsRole(), nopCommerceData.getCompany());
     }
 
     @Test
-    public void TC_08(){
+    public void Admin_08_Search_Customer_With_Email(){
         customerPage.enterToEmailTextbox(email);
-        customerPage.selectCustomerRolesDropdown("Guests");
+        customerPage.selectCustomerRolesDropdown(nopCommerceData.getAdminServer().getGuestsRole());
 
         customerPage.clickOnSearchButton();
-        customerPage.isDataRowDisplayed(nopCommerceData.getFirstName() + " " + nopCommerceData.getLastName(), "Guests", nopCommerceData.getCompany());
+        customerPage.isDataRowDisplayed(nopCommerceData.getFirstName() + " " + nopCommerceData.getLastName(), nopCommerceData.getAdminServer().getGuestsRole(), nopCommerceData.getCompany());
     }
 
     @Test
-    public void TC_09(){
+    public void Admin_09_Search_Customer_With_First_Name_And_Last_Name(){
         customerPage.enterToFirstNameTextbox(nopCommerceData.getFirstName());
         customerPage.enterToLastNameTextbox(nopCommerceData.getLastName());
-        customerPage.selectCustomerRolesDropdown("Guests");
+        customerPage.selectCustomerRolesDropdown(nopCommerceData.getAdminServer().getGuestsRole());
 
         customerPage.clickOnSearchButton();
-        customerPage.isDataRowDisplayed(nopCommerceData.getFirstName() + " " + nopCommerceData.getLastName(), "Guests", nopCommerceData.getCompany());
+        customerPage.isDataRowDisplayed(nopCommerceData.getFirstName() + " " + nopCommerceData.getLastName(), nopCommerceData.getAdminServer().getGuestsRole(), nopCommerceData.getCompany());
     }
 
     @Test
-    public void TC_10(){
+    public void Admin_10_Search_Customer_With_Comapny(){
         customerPage.enterToComapnyTextbox(nopCommerceData.getCompany());
-        customerPage.selectCustomerRolesDropdown("Guests");
+        customerPage.selectCustomerRolesDropdown(nopCommerceData.getAdminServer().getGuestsRole());
 
         customerPage.clickOnSearchButton();
-        customerPage.isDataRowDisplayed(nopCommerceData.getFirstName() + " " + nopCommerceData.getLastName(), "Guests", nopCommerceData.getCompany());
+        customerPage.isDataRowDisplayed(nopCommerceData.getFirstName() + " " + nopCommerceData.getLastName(), nopCommerceData.getAdminServer().getGuestsRole(), nopCommerceData.getCompany());
     }
 
     @Test
-    public void TC_11(){
-        customerPage.enterToEmailTextbox(email);
-        customerPage.enterToFirstNameTextbox(nopCommerceData.getFirstName());
-        customerPage.enterToLastNameTextbox(nopCommerceData.getLastName());
-        customerPage.enterToComapnyTextbox(nopCommerceData.getCompany());
-        customerPage.selectCustomerRolesDropdown("Guests");
-
-        customerPage.clickOnSearchButton();
-        customerPage.isDataRowDisplayed(nopCommerceData.getFirstName() + " " + nopCommerceData.getLastName(), "Guests", nopCommerceData.getCompany());
-    }
-
-    @Test
-    public void TC_12(){
+    public void Admin_11_Search_Customer_With_Full_Data(){
         customerPage.enterToEmailTextbox(email);
         customerPage.enterToFirstNameTextbox(nopCommerceData.getFirstName());
         customerPage.enterToLastNameTextbox(nopCommerceData.getLastName());
         customerPage.enterToComapnyTextbox(nopCommerceData.getCompany());
-        customerPage.selectCustomerRolesDropdown("Guests");
+        customerPage.selectCustomerRolesDropdown(nopCommerceData.getAdminServer().getGuestsRole());
+
+        customerPage.clickOnSearchButton();
+        customerPage.isDataRowDisplayed(nopCommerceData.getFirstName() + " " + nopCommerceData.getLastName(), nopCommerceData.getAdminServer().getGuestsRole(), nopCommerceData.getCompany());
+    }
+
+    @Test
+    public void Admin_12_Edit_Customer(){
+        customerPage.enterToEmailTextbox(email);
+        customerPage.enterToFirstNameTextbox(nopCommerceData.getFirstName());
+        customerPage.enterToLastNameTextbox(nopCommerceData.getLastName());
+        customerPage.enterToComapnyTextbox(nopCommerceData.getCompany());
+        customerPage.selectCustomerRolesDropdown(nopCommerceData.getAdminServer().getGuestsRole());
 
         customerPage.clickOnSearchButton();
 
@@ -184,19 +192,19 @@ public class AdminTest extends BaseTest {
         customerPage.enterToFirstNameTextbox("Edit_" + nopCommerceData.getFirstName());
         customerPage.enterToLastNameTextbox("Edit_" + nopCommerceData.getLastName());
         customerPage.enterToComapnyTextbox("Edit_" + nopCommerceData.getCompany());
-        customerPage.selectCustomerRolesDropdown("Guests");
+        customerPage.selectCustomerRolesDropdown(nopCommerceData.getAdminServer().getGuestsRole());
         customerPage.clickOnSearchButton();
 
-        customerPage.isDataRowDisplayed("Edit_" + nopCommerceData.getFirstName() + " Edit_" + nopCommerceData.getLastName(), "Guests", "Edit_" + nopCommerceData.getCompany());
+        customerPage.isDataRowDisplayed("Edit_" + nopCommerceData.getFirstName() + " Edit_" + nopCommerceData.getLastName(), nopCommerceData.getAdminServer().getGuestsRole(), "Edit_" + nopCommerceData.getCompany());
     }
 
     @Test
-    public void TC_13(){
+    public void Admin_13_Add_New_Address_In_Customer_Detail(){
         customerPage.enterToEmailTextbox("edit_" + email);
         customerPage.enterToFirstNameTextbox("Edit_" + nopCommerceData.getFirstName());
         customerPage.enterToLastNameTextbox("Edit_" + nopCommerceData.getLastName());
         customerPage.enterToComapnyTextbox("Edit_" + nopCommerceData.getCompany());
-        customerPage.selectCustomerRolesDropdown("Guests");
+        customerPage.selectCustomerRolesDropdown(nopCommerceData.getAdminServer().getGuestsRole());
         customerPage.clickOnSearchButton();
 
         editCustomerPage = customerPage.clickOnEditButton("Edit_" + nopCommerceData.getFirstName() + " Edit_" + nopCommerceData.getLastName());
@@ -227,7 +235,7 @@ public class AdminTest extends BaseTest {
     }
 
     @Test
-    public void TC_14() {
+    public void Admin_14_Edit_New_Address_In_Customer_Detail() {
         editAddressPage = editCustomerPage.clickOnEditButtonInTableByName(nopCommerceData.getFirstName());
 
         editAddressPage.enterToFirstNameTextbox("Edit_" + nopCommerceData.getFirstName());
@@ -243,10 +251,10 @@ public class AdminTest extends BaseTest {
     }
 
     @Test
-    public void TC_15() {
+    public void Admin_15_Delete_Address_In_Customer_Detail() {
         editCustomerPage.clickOnDeleteButtonInAddressTable("Edit_" + nopCommerceData.getFirstName());
 
-        verifyTrue(editCustomerPage.noDataInTable());
+        verifyTrue(editCustomerPage.getTextMessageNoDataInTable());
         verifyTrue(editCustomerPage.isDataAddressRowUndisplayed("Edit_" + nopCommerceData.getFirstName(), "Edit_" + nopCommerceData.getLastName(), email, phoneNumber, phoneNumber));
     }
     @AfterClass

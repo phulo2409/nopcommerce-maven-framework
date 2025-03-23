@@ -1,9 +1,10 @@
-package pageObjects.admin;
+package pageObjects.admin.login;
 
 import common.BasePage;
 import org.openqa.selenium.WebDriver;
 import pageObjects.PageGenerator;
-import pageUIs.admin.AdminLoginPUI;
+import pageObjects.admin.dashboard.AdminDashboardPO;
+import pageUIs.admin.login.AdminLoginPUI;
 
 public class AdminLoginPO extends BasePage {
     private WebDriver driver;

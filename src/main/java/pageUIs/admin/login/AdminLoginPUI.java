@@ -1,4 +1,4 @@
-package pageUIs.admin;
+package pageUIs.admin.login;
 
 public class AdminLoginPUI {
     public final static String EMAIL_TEXTBOX = "Xpath=//input[@id='Email']";

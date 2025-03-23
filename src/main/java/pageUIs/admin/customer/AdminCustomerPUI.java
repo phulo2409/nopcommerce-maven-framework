@@ -1,4 +1,4 @@
-package pageUIs.admin;
+package pageUIs.admin.customer;
 
 public class AdminCustomerPUI {
     public static final String ADD_NEW_BUTTON = "Xpath=//a[@class='btn btn-primary']";

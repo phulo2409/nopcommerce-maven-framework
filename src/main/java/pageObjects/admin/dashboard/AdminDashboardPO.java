@@ -1,4 +1,4 @@
-package pageObjects.admin;
+package pageObjects.admin.dashboard;
 
 import common.BasePage;
 import org.openqa.selenium.WebDriver;

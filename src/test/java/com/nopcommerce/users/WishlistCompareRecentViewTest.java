@@ -18,7 +18,7 @@ import pageObjects.users.wishlist.UserWishlistPO;
 import pageObjects.users.wishlist.UserWishlistSharePO;
 import utilities.NopCommerceData;
 
-public class TM_06_WishlistCompareRecentView extends BaseTest {
+public class WishlistCompareRecentViewTest extends BaseTest {
 
     @Parameters({"browser", "url"})
     @BeforeClass
@@ -37,7 +37,7 @@ public class TM_06_WishlistCompareRecentView extends BaseTest {
 
 
     @Test
-    public void TC_01_Add_To_Wishlist(){
+    public void Wishlist_ShoppingCart_01_Add_To_Wishlist(){
         productPage.clickOnAddToWishlistButton();
 
         verifyTrue(productPage.isSuccessBarNotificationDisplayed(driver, "The product has been added to your wishlist"));
@@ -53,7 +53,7 @@ public class TM_06_WishlistCompareRecentView extends BaseTest {
     }
 
     @Test
-    public void TC_02_Add_Product_To_Cart_From_Wishlist_Page(){
+    public void Wishlist_ShoppingCart_02_Add_Product_To_Cart_From_Wishlist_Page(){
         productPage = wishlistSharePage.clickOnProductName(nopCommerceData.getProductItem().getLenovoItem());
         wishlistPage = productPage.openWishlistPage();
 
@@ -65,7 +65,7 @@ public class TM_06_WishlistCompareRecentView extends BaseTest {
     }
 
     @Test
-    public void TC_03_Remove_Product_In_Wishlist_Page(){
+    public void Wishlist_ShoppingCart_03_Remove_Product_In_Wishlist_Page(){
         shoppingCartPage.openHeaderMenuBarPage(driver,nopCommerceData.getProductItem().getComputerBreadcrumb(), nopCommerceData.getProductItem().getDesktopsBreadcrumb());
         productListPage = PageGenerator.getPageGenerator().getUserProductList(driver);
         productPage = productListPage.openProductByTitle(nopCommerceData.getProductItem().getLenovoItem());
@@ -81,7 +81,7 @@ public class TM_06_WishlistCompareRecentView extends BaseTest {
     }
 
     @Test
-    public void TC_04_Add_Product_To_Compare(){
+    public void Wishlist_ShoppingCart_04_Add_Product_To_Compare(){
         wishlistPage.openHeaderMenuBarPage(driver,nopCommerceData.getProductItem().getComputerBreadcrumb(), nopCommerceData.getProductItem().getDesktopsBreadcrumb());
         productListPage = PageGenerator.getPageGenerator().getUserProductList(driver);
 
@@ -99,7 +99,7 @@ public class TM_06_WishlistCompareRecentView extends BaseTest {
     }
 
     @Test
-    public void TC_05_Recently_Viewed_Products(){
+    public void Wishlist_ShoppingCart_05_Recently_Viewed_Products(){
         homePage.openHeaderMenuBarPage(driver,nopCommerceData.getProductItem().getComputerBreadcrumb(), nopCommerceData.getProductItem().getNotebookBreadcrumb());
         productListPage = PageGenerator.getPageGenerator().getUserProductList(driver);
 

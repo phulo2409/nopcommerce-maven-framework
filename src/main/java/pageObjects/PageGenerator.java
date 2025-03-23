@@ -1,7 +1,10 @@
 package pageObjects;
 
 import org.openqa.selenium.WebDriver;
-import pageObjects.admin.*;
+import pageObjects.admin.customer.*;
+import pageObjects.admin.dashboard.AdminDashboardPO;
+import pageObjects.admin.login.AdminLoginPO;
+import pageObjects.admin.product.AdminProductPO;
 import pageObjects.users.dashboard.UserHomePO;
 import pageObjects.users.dashboard.UserSearchPO;
 import pageObjects.users.login.UserLoginPO;

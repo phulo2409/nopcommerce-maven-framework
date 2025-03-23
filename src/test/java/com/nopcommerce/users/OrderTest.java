@@ -16,7 +16,7 @@ import pageObjects.users.shoppingCart.UserShoppingCartPO;
 import utilities.FakerConfig;
 import utilities.NopCommerceData;
 
-public class TM_07_Order extends BaseTest {
+public class OrderTest extends BaseTest {
 
     @Parameters({"browser", "url"})
     @BeforeClass
@@ -39,7 +39,7 @@ public class TM_07_Order extends BaseTest {
     }
 
     @Test
-    public void TC_01_Add_Product_To_Cart(){
+    public void Order_01_Add_Product_To_Cart(){
         productPage = productListPage.openProductByTitle(nopCommerceData.getProductItem().getBuildProduct());
 
         productPage.selectBuildYourOwnComputerToCart("2.5 GHz Intel Pentium Dual-Core E2200 [+$15.00]", "8GB [+$60.00]", "400 GB [+$100.00]", "Vista Premium [+$60.00]", "yes", "yes", "yes", "1");
@@ -63,7 +63,7 @@ public class TM_07_Order extends BaseTest {
     }
 
     @Test
-    public void TC_02_Edit_Product_In_Shopping_Cart(){
+    public void Order_02_Edit_Product_In_Shopping_Cart(){
         shoppingCartPage = productPage.openShoppingCartPage();
 
         productPage = shoppingCartPage.clickOnEditButton(nopCommerceData.getProductItem().getBuildProduct());
@@ -86,7 +86,7 @@ public class TM_07_Order extends BaseTest {
     }
 
     @Test
-    public void TC_03_Remove_From_Cart(){
+    public void Order_03_Remove_From_Cart(){
         shoppingCartPage = productPage.openShoppingCartPage();
 
         shoppingCartPage.removeProductByProductName(nopCommerceData.getProductItem().getBuildProduct());
@@ -96,7 +96,7 @@ public class TM_07_Order extends BaseTest {
     }
 
     @Test
-    public void TC_04_Update_Shopping_Cart(){
+    public void Order_04_Update_Shopping_Cart(){
         shoppingCartPage.openHeaderMenuBarPage(driver,nopCommerceData.getProductItem().getComputerBreadcrumb(), nopCommerceData.getProductItem().getDesktopsBreadcrumb());
         productListPage = PageGenerator.getPageGenerator().getUserProductList(driver);
         productPage = productListPage.openProductByTitle(nopCommerceData.getProductItem().getLenovoItem());
@@ -114,7 +114,7 @@ public class TM_07_Order extends BaseTest {
     }
 
     @Test
-    public void TC_05_Check_Out(){
+    public void Order_05_Check_Out(){
         shoppingCartPage.openHeaderMenuBarPage(driver,nopCommerceData.getProductItem().getComputerBreadcrumb(), nopCommerceData.getProductItem().getNotebookBreadcrumb());
         productListPage = PageGenerator.getPageGenerator().getUserProductList(driver);
         productPage = productListPage.openProductByTitle(nopCommerceData.getSearchTest().getAppleSearch());
@@ -192,6 +192,6 @@ public class TM_07_Order extends BaseTest {
     private UserShoppingCartPO shoppingCartPage;
     private UserCheckOutPO checkOutPage;
     private NopCommerceData nopCommerceData;
-    private FakerConfig fakerConfig, faker;
+    private FakerConfig fakerConfig;
     private String email, address, phoneNumber;
 }

@@ -9,10 +9,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import pageObjects.PageGenerator;
-import pageObjects.admin.AdminCustomerPO;
 import pageObjects.users.myAccount.UserCustomerInfoPO;
-import pageUIs.admin.AdminAddCustomerPUI;
-import pageUIs.admin.AdminBasePageUI;
+import pageUIs.admin.dashboard.AdminBasePageUI;
 import pageUIs.users.dashboard.BasePageUI;
 
 import java.time.Duration;
@@ -155,7 +153,7 @@ private WebDriver driver;
     }
 
     private Alert waitAlertPresence(WebDriver driver){
-        return new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.alertIsPresent());
+        return new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.getGlobalConstants().getShortTimeout())).until(ExpectedConditions.alertIsPresent());
     }
 
     public void acceptToAlert(WebDriver driver){
@@ -175,9 +173,9 @@ private WebDriver driver;
     }
 
     public boolean isElementUndisplayed(WebDriver driver, String locator){
-        overideGlobalTimeout(driver, GlobalConstants.SHORT_TIMEOUT);
+        overideGlobalTimeout(driver, GlobalConstants.getGlobalConstants().getShortTimeout());
         List<WebElement> elements = getListElement(driver, locator);
-        overideGlobalTimeout(driver, GlobalConstants.LONG_TIMEOUT);
+        overideGlobalTimeout(driver, GlobalConstants.getGlobalConstants().getLongTimeout());
 
         if (elements.size() == 0){// Case 3 - Verify Confirm Email textbox is not displayed
             return true;
@@ -189,9 +187,9 @@ private WebDriver driver;
     }
 
     public boolean isElementUndisplayed(WebDriver driver, String locator, String... restParameter){
-        overideGlobalTimeout(driver, GlobalConstants.SHORT_TIMEOUT);
+        overideGlobalTimeout(driver, GlobalConstants.getGlobalConstants().getShortTimeout());
         List<WebElement> elements = getListElement(driver, castParameter(locator, restParameter));
-        overideGlobalTimeout(driver, GlobalConstants.LONG_TIMEOUT);
+        overideGlobalTimeout(driver, GlobalConstants.getGlobalConstants().getLongTimeout());
 
         if (elements.size() == 0){// Case 3 - Verify Confirm Email textbox is not displayed
             return true;
@@ -234,7 +232,7 @@ private WebDriver driver;
 
     protected void waitForElementVisible(WebDriver driver, String locator){
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(locator)));
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.getGlobalConstants().getShortTimeout())).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(locator)));
         } catch (Throwable error){
             error.printStackTrace();
             Assert.fail("The " + locator + " isn't visible after the timeout waiting period is over");
@@ -243,7 +241,7 @@ private WebDriver driver;
 
     protected void waitForElementVisible(WebDriver driver, String locator, String... restParameter){
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(castParameter(locator, restParameter))));
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.getGlobalConstants().getShortTimeout())).until(ExpectedConditions.visibilityOfElementLocated(getByLocator(castParameter(locator, restParameter))));
         } catch (Throwable error){
             error.printStackTrace();
             Assert.fail("The " + castParameter(locator, restParameter) + " isn't visible after the timeout waiting period is over");
@@ -252,7 +250,7 @@ private WebDriver driver;
 
     protected void waitForElementInvisible(WebDriver driver, String locator){
         try{
-            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.invisibilityOfElementLocated(getByLocator(locator)));
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.getGlobalConstants().getShortTimeout())).until(ExpectedConditions.invisibilityOfElementLocated(getByLocator(locator)));
         } catch (Throwable error){
             error.printStackTrace();
             Assert.fail("The " + locator + " isn't invisible after the timeout waiting period is over");
@@ -261,7 +259,7 @@ private WebDriver driver;
 
     protected void waitForElementInvisible(WebDriver driver, String locator, String... restParameter){
         try{
-            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.invisibilityOfElementLocated(getByLocator(castParameter(locator, restParameter))));
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.getGlobalConstants().getShortTimeout())).until(ExpectedConditions.invisibilityOfElementLocated(getByLocator(castParameter(locator, restParameter))));
         } catch (Throwable error){
             error.printStackTrace();
             Assert.fail("The " + locator + " isn't invisible after the timeout waiting period is over");
@@ -270,7 +268,7 @@ private WebDriver driver;
 
     protected void waitForElementSelected(WebDriver driver, String locator){
         try{
-            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.elementToBeSelected(getByLocator(locator)));
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.getGlobalConstants().getShortTimeout())).until(ExpectedConditions.elementToBeSelected(getByLocator(locator)));
         } catch (Throwable error){
             error.printStackTrace();
             Assert.fail("The " + locator + " can't be selected after the timeout waiting period is over");
@@ -279,7 +277,7 @@ private WebDriver driver;
 
     protected void waitForElementSelected(WebDriver driver, String locator, String... restParameter){
         try{
-            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.elementToBeSelected(getByLocator(castParameter(locator, restParameter))));
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.getGlobalConstants().getShortTimeout())).until(ExpectedConditions.elementToBeSelected(getByLocator(castParameter(locator, restParameter))));
         } catch (Throwable error){
             error.printStackTrace();
             Assert.fail("The " + locator + " can't be selected after the timeout waiting period is over");
@@ -288,7 +286,7 @@ private WebDriver driver;
 
     protected void waitForElementClickable(WebDriver driver, String locator){
         try{
-            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(getByLocator(locator)));
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.getGlobalConstants().getShortTimeout())).until(ExpectedConditions.elementToBeClickable(getByLocator(locator)));
         } catch (Throwable error){
             error.printStackTrace();
             Assert.fail("The " + locator + " isn't clickable after the timeout waiting period is over");
@@ -297,7 +295,7 @@ private WebDriver driver;
 
     protected void waitForElementClickable(WebDriver driver, String locator, String... restParameter){
         try{
-            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(getByLocator(castParameter(locator, restParameter))));
+            new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.getGlobalConstants().getShortTimeout())).until(ExpectedConditions.elementToBeClickable(getByLocator(castParameter(locator, restParameter))));
         } catch (Throwable error){
             error.printStackTrace();
             Assert.fail("The " + castParameter(locator, restParameter) + " isn't clickable after the timeout waiting period is over");
@@ -332,7 +330,7 @@ private WebDriver driver;
     }
 
     protected boolean waitForListElementInvisible(WebDriver driver, String locator){
-        return new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT))
+        return new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.getGlobalConstants().getLongTimeout()))
                 .until(ExpectedConditions.invisibilityOfAllElements(getListElement(driver, locator)));
     }
 
@@ -436,6 +434,7 @@ private WebDriver driver;
         }
     }
 
+    @Step("Click on {1} -> {2} Page Name in sidebar ")
     public void clickOnPageInSidebar(WebDriver driver, String pageName, String pageName2){
         waitForElementClickable(driver, AdminBasePageUI.DYNAMIC_NAV_LINK, pageName);
         clickToElement(driver, AdminBasePageUI.DYNAMIC_NAV_LINK, pageName);
@@ -448,6 +447,7 @@ private WebDriver driver;
         return waitForListElementInvisible(driver, AdminBasePageUI.AJAX_LOADING);
     }
 
+    @Step("Verify: Get success message")
     public String getSuccessMessage(WebDriver driver) {
         waitForElementVisible(driver, AdminBasePageUI.SUCCESS_MESSAGE);
         return getTextElement(driver, AdminBasePageUI.SUCCESS_MESSAGE);

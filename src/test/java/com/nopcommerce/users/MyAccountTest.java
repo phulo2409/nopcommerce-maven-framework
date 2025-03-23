@@ -2,9 +2,7 @@ package com.nopcommerce.users;
 
 import com.nopcommerce.common.Login;
 import common.BaseTest;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -22,7 +20,7 @@ import pageObjects.users.product.UserProductPO;
 import utilities.FakerConfig;
 import utilities.NopCommerceData;
 
-public class TM_03_MyAccountTest extends BaseTest {
+public class MyAccountTest extends BaseTest {
 
     @Parameters({"browser", "url"})
     @BeforeClass
@@ -126,7 +124,6 @@ public class TM_03_MyAccountTest extends BaseTest {
 
     private WebDriver driver;
     private UserHomePO homePage;
-    private UserRegisterPO registerPage;
     private UserLoginPO loginPage;
     private UserCustomerInfoPO customerInfoPage;
     private UserAddressPO addressPage;
@@ -134,7 +131,7 @@ public class TM_03_MyAccountTest extends BaseTest {
     private UserProductListPO productListPage;
     private UserProductPO productPage;
     private UserMyProductReviewsPO myProductReviewsPage;
-    private FakerConfig fakerConfig, faker;
+    private FakerConfig fakerConfig;
     private NopCommerceData nopCommerceData;
     private String email, cityName, address, zipcode, phoneNumber, country, state,editEmail;
 }

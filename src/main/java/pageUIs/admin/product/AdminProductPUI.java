@@ -1,4 +1,4 @@
-package pageUIs.admin;
+package pageUIs.admin.product;
 
 public class AdminProductPUI {
     public static final String PRODUCT_NAME_TEXTBOX = "Xpath=//input[@id='SearchProductName']";

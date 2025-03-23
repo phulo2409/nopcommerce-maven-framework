@@ -13,7 +13,7 @@ public class NopCommerceData {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            return mapper.readValue(new File(GlobalConstants.DATA_TEST_PATH + "dataTest.json"), NopCommerceData.class);
+            return mapper.readValue(new File(GlobalConstants.getGlobalConstants().getDataTestPath() + "dataTest.json"), NopCommerceData.class);
         } catch (Exception ex){
             ex.printStackTrace();
             return null;
@@ -86,5 +86,21 @@ public class NopCommerceData {
 
         @JsonProperty("buildProduct")
         private String buildProduct;
+    }
+
+    @JsonProperty("adminServer")
+    private AdminServer adminServer;
+
+    @Data
+    public static class AdminServer{
+
+        @JsonProperty("guestsRole")
+        private String guestsRole;
+
+        @JsonProperty("skuProduct")
+        private String skuProduct;
+
+        @JsonProperty("productPrice500")
+        private String productPrice500;
     }
 }

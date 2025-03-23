@@ -12,7 +12,7 @@ import pageObjects.users.login.UserRegisterPO;
 import utilities.FakerConfig;
 import utilities.NopCommerceData;
 
-public class TM_01_RegisterTest extends BaseTest {
+public class RegisterTest extends BaseTest {
 
     @Parameters({"browser", "url"})
     @BeforeClass
@@ -39,26 +39,14 @@ public class TM_01_RegisterTest extends BaseTest {
 
     @Test
     public void Register_02_Invalid_Email(){
-        registerPage.enterToFirstNameTextbox(nopCommerceData.getFirstName());
-        registerPage.enterToLastNameTextbox(nopCommerceData.getLastName());
-        registerPage.enterToEmailTextbox("phulo@gmail");
-        registerPage.enterToCompanyTextbox(nopCommerceData.getCompany());
-        registerPage.enterToPasswordTextbox(nopCommerceData.getPassword());
-        registerPage.enterToConfirmPasswordTextbox(nopCommerceData.getPassword());
-        registerPage.clickTheRegisterButton();
+        registerPage.createAnAccount(nopCommerceData.getFirstName(), nopCommerceData.getLastName(), "phulo@gmail", nopCommerceData.getCompany(), nopCommerceData.getPassword());
 
         verifyEquals(registerPage.getEmailValidationMessage(), "Wrong email");
     }
 
     @Test
     public void Register_03_Valid_Data(){
-        registerPage.enterToFirstNameTextbox(nopCommerceData.getFirstName());
-        registerPage.enterToLastNameTextbox(nopCommerceData.getLastName());
-        registerPage.enterToEmailTextbox(email);
-        registerPage.enterToCompanyTextbox(nopCommerceData.getCompany());
-        registerPage.enterToPasswordTextbox(nopCommerceData.getPassword());
-        registerPage.enterToConfirmPasswordTextbox(nopCommerceData.getPassword());
-        registerPage.clickTheRegisterButton();
+        registerPage.createAnAccount(nopCommerceData.getFirstName(), nopCommerceData.getLastName(), email, nopCommerceData.getCompany(), nopCommerceData.getPassword());
 
         verifyEquals(registerPage.getRegisterSuccessMessage(), "Your registration completed");
     }
@@ -68,26 +56,14 @@ public class TM_01_RegisterTest extends BaseTest {
         homePage = registerPage.clickToLogoutLink();
         registerPage = homePage.openRegisterPage();
 
-        registerPage.enterToFirstNameTextbox(nopCommerceData.getFirstName());
-        registerPage.enterToLastNameTextbox(nopCommerceData.getLastName());
-        registerPage.enterToEmailTextbox(email);
-        registerPage.enterToCompanyTextbox(nopCommerceData.getCompany());
-        registerPage.enterToPasswordTextbox(nopCommerceData.getPassword());
-        registerPage.enterToConfirmPasswordTextbox(nopCommerceData.getPassword());
-        registerPage.clickTheRegisterButton();
+        registerPage.createAnAccount(nopCommerceData.getFirstName(), nopCommerceData.getLastName(), email, nopCommerceData.getCompany(), nopCommerceData.getPassword());
 
         verifyEquals(registerPage.getRegisterErrorMessage(), "The specified email already exists");
     }
 
     @Test
     public void Register_05_Password_Less_Than_6_Characters(){
-        registerPage.enterToFirstNameTextbox(nopCommerceData.getFirstName());
-        registerPage.enterToLastNameTextbox(nopCommerceData.getLastName());
-        registerPage.enterToEmailTextbox(email);
-        registerPage.enterToCompanyTextbox(nopCommerceData.getCompany());
-        registerPage.enterToPasswordTextbox("12345");
-        registerPage.enterToConfirmPasswordTextbox("12345");
-        registerPage.clickTheRegisterButton();
+        registerPage.createAnAccount(nopCommerceData.getFirstName(), nopCommerceData.getLastName(), email, nopCommerceData.getCompany(), "12345");
 
         verifyEquals(registerPage.getPasswordValidationMessage(), "Password must meet the following rules: must have at least 6 characters and not greater than 64 characters");
     }

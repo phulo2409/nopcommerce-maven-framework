@@ -1,14 +1,26 @@
 package common;
 
+import lombok.Getter;
+
+@Getter
 public class GlobalConstants {
+    private static GlobalConstants globalConstants;
 
-    public static final long SHORT_TIMEOUT = 15;
-    public static final long LONG_TIMEOUT = 30;
-    private static final String PROJECT_PATH = System.getProperty("user.dir");
-    public static final String OS_NAME = System.getProperty("os.name");
-    private static final String SEPARATOR = System.getProperty("file.separator");
-    public static final String DATA_TEST_PATH = PROJECT_PATH + SEPARATOR + "dataTest" + SEPARATOR;
+    public static synchronized GlobalConstants getGlobalConstants(){
+        if(globalConstants == null){
+            globalConstants = new GlobalConstants();
+        }
+        return globalConstants;
+    }
 
-    public final static String ADMIN_EMAIL = "admin@yourstore.com";
-    public final static String ADMIN_PASSWORD= "admin";
+    private final long shortTimeout = 15;
+    private final long longTimeout = 30;
+
+    private final String projectPath = System.getProperty("user.dir");
+    private final String osName = System.getProperty("os.name");
+    private final String separator = System.getProperty("file.separator");
+    private final String dataTestPath = projectPath + separator + "dataTest" + separator;
+
+    private final String adminEmail = "admin@yourstore.com";
+    private final String adminPassword = "admin";
 }

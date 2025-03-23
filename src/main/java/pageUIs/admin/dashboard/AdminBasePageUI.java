@@ -1,4 +1,4 @@
-package pageUIs.admin;
+package pageUIs.admin.dashboard;
 
 public class AdminBasePageUI {
     public static final String DYNAMIC_NAV_LINK = "Xpath=//div[@class='sidebar']//li[contains(@class, 'has-treeview')]//a[normalize-space()='%s']";

@@ -79,8 +79,6 @@ public class UserProductListPO extends BasePage {
 
         List<Float> productPriceTextClone = new ArrayList<>(productPriceText);
         Collections.sort(productPriceTextClone);
-        System.out.println("OG:" + productPriceText);
-        System.out.println("Clone: " + productPriceTextClone);
         return productPriceText.equals(productPriceTextClone);
     }
 
@@ -96,8 +94,6 @@ public class UserProductListPO extends BasePage {
         List<Float> productPriceTextClone = new ArrayList<>(productPriceText);
         Collections.sort(productPriceTextClone);
         Collections.reverse(productPriceTextClone);
-        System.out.println("OG:" + productPriceText);
-        System.out.println("Clone: " + productPriceTextClone);
         return productPriceText.equals(productPriceTextClone);
     }
 
@@ -136,7 +132,7 @@ public class UserProductListPO extends BasePage {
     public void clickOnTheNextPage(){
         waitForElementClickable(driver, UserProductListPUI.NEXT_PAGE_BUTTON);
         clickToElement(driver, UserProductListPUI.NEXT_PAGE_BUTTON);
-        waitForElementInvisible(driver, BasePageUI.AJAX_ICON);
+        waitAllLoadingIconInvisibleAdmin(driver);
     }
 
     @Step("Click on compare button on Prouct name {0}")

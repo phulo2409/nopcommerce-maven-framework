@@ -1,4 +1,4 @@
-package pageUIs.admin;
+package pageUIs.admin.customer;
 
 public class AdminAddNewAddressPUI {
     public static final String FIRST_NAME_TEXTBOX = "Xpath=//input[@id='Address_FirstName']";
