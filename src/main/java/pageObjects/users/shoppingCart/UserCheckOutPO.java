@@ -18,42 +18,23 @@ public class UserCheckOutPO extends BasePage {
         uncheckToCheckbox(driver, UserCheckOutPUI.SHIPPING_SAME_ADDRESS_CHECKBOX);
     }
 
-    @Step("Add an new Billing Address")
-    public void addNewAddressBilling(String firstName, String lastName, String email, String company, String country,
+    @Step("Add an new {0} Address")
+    public void addNewAddressBillingShipping(String tabName,String firstName, String lastName, String email, String company, String country,
                                      String state, String city, String address1, String address2, String zip, String phoneNumber, String faxNumber) {
-        waitForElementVisible(driver, UserCheckOutPUI.BILLING_FIRST_NAME_TEXTBOX);
-        sendkeyToElement(driver, UserCheckOutPUI.BILLING_FIRST_NAME_TEXTBOX, firstName);
-        sendkeyToElement(driver, UserCheckOutPUI.BILLING_LAST_NAME_TEXTBOX, lastName);
-        sendkeyToElement(driver, UserCheckOutPUI.BILLING_EMAIL_TEXTBOX, email);
-        sendkeyToElement(driver, UserCheckOutPUI.BILLING_COMPANY_TEXTBOX, company);
-        selectItemInDropdown(driver, UserCheckOutPUI.BILLING_COUNTRY_TEXTBOX, country);
-        selectItemInDropdown(driver, UserCheckOutPUI.BILLING_STATE_TEXTBOX, state);
-        sendkeyToElement(driver, UserCheckOutPUI.BILLING_CITY_TEXTBOX, city);
-        sendkeyToElement(driver, UserCheckOutPUI.BILLING_ADDRESS1_TEXTBOX, address1);
-        sendkeyToElement(driver, UserCheckOutPUI.BILLING_ADDRESS2_TEXTBOX, address2);
-        sendkeyToElement(driver, UserCheckOutPUI.BILLING_ZIP_TEXTBOX, zip);
-        sendkeyToElement(driver, UserCheckOutPUI.BILLING_PHONE_NUMBER_TEXTBOX, phoneNumber);
-        sendkeyToElement(driver, UserCheckOutPUI.BILLING_FAX_NUMBER_TEXTBOX, faxNumber);
-        clickToElement(driver, UserCheckOutPUI.BILLING_CONTINUE_BUTTON);
-    }
-
-    @Step("Add an new Shipping Address")
-    public void addNewAddressShipping(String firstName, String lastName, String email, String company, String country,
-                                     String state, String city, String address1, String address2, String zip, String phoneNumber, String faxNumber) {
-        waitForElementVisible(driver, UserCheckOutPUI.SHIPPING_FIRST_NAME_TEXTBOX);
-        sendkeyToElement(driver, UserCheckOutPUI.SHIPPING_FIRST_NAME_TEXTBOX, firstName);
-        sendkeyToElement(driver, UserCheckOutPUI.SHIPPING_LAST_NAME_TEXTBOX, lastName);
-        sendkeyToElement(driver, UserCheckOutPUI.SHIPPING_EMAIL_TEXTBOX, email);
-        sendkeyToElement(driver, UserCheckOutPUI.SHIPPING_COMPANY_TEXTBOX, company);
-        selectItemInDropdown(driver, UserCheckOutPUI.SHIPPING_COUNTRY_TEXTBOX, country);
-        selectItemInDropdown(driver, UserCheckOutPUI.SHIPPING_STATE_TEXTBOX, state);
-        sendkeyToElement(driver, UserCheckOutPUI.SHIPPING_CITY_TEXTBOX, city);
-        sendkeyToElement(driver, UserCheckOutPUI.SHIPPING_ADDRESS1_TEXTBOX, address1);
-        sendkeyToElement(driver, UserCheckOutPUI.SHIPPING_ADDRESS2_TEXTBOX, address2);
-        sendkeyToElement(driver, UserCheckOutPUI.SHIPPING_ZIP_TEXTBOX, zip);
-        sendkeyToElement(driver, UserCheckOutPUI.SHIPPING_PHONE_NUMBER_TEXTBOX, phoneNumber);
-        sendkeyToElement(driver, UserCheckOutPUI.SHIPPING_FAX_NUMBER_TEXTBOX, faxNumber);
-        clickToElement(driver, UserCheckOutPUI.SHIPPING_CONTINUE_BUTTON);
+        waitForElementVisible(driver, UserCheckOutPUI.DYNAMIC_FIRST_NAME_TEXTBOX, tabName);
+        sendkeyToElement(driver, UserCheckOutPUI.DYNAMIC_FIRST_NAME_TEXTBOX, firstName, tabName);
+        sendkeyToElement(driver, UserCheckOutPUI.DYNAMIC_LAST_NAME_TEXTBOX, lastName, tabName);
+        sendkeyToElement(driver, UserCheckOutPUI.DYNAMIC_EMAIL_TEXTBOX, email, tabName);
+        sendkeyToElement(driver, UserCheckOutPUI.DYNAMIC_COMPANY_TEXTBOX, company, tabName);
+        selectItemInDropdown(driver, UserCheckOutPUI.DYNAMIC_COUNTRY_TEXTBOX, country, tabName);
+        selectItemInDropdown(driver, UserCheckOutPUI.DYNAMIC_STATE_TEXTBOX, state, tabName);
+        sendkeyToElement(driver, UserCheckOutPUI.DYNAMIC_CITY_TEXTBOX, city, tabName);
+        sendkeyToElement(driver, UserCheckOutPUI.DYNAMIC_ADDRESS1_TEXTBOX, address1, tabName);
+        sendkeyToElement(driver, UserCheckOutPUI.DYNAMIC_ADDRESS2_TEXTBOX, address2, tabName);
+        sendkeyToElement(driver, UserCheckOutPUI.DYNAMIC_ZIP_TEXTBOX, zip, tabName);
+        sendkeyToElement(driver, UserCheckOutPUI.DYNAMIC_PHONE_NUMBER_TEXTBOX, phoneNumber, tabName);
+        sendkeyToElement(driver, UserCheckOutPUI.DYNAMIC_FAX_NUMBER_TEXTBOX, faxNumber, tabName);
+        clickToElement(driver, UserCheckOutPUI.DYNAMIC_CONTINUE_BUTTON, tabName.toLowerCase());
     }
 
     @Step("Select {0} item in Shipping Address dropdown ")
@@ -88,124 +69,64 @@ public class UserCheckOutPO extends BasePage {
         clickToElement(driver, UserCheckOutPUI.PAYMENT_INFORMATION_CONTINUE_BUTTON);
     }
 
-    @Step("Verify: Get text of Billing Name")
-    public String getBillingNameText(){
-        waitForElementVisible(driver, UserCheckOutPUI.BILLING_NAME_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.BILLING_NAME_TEXT);
+    @Step("Verify: Get text of {0} Name")
+    public String getDynamicNameText(String tabName){
+        waitForElementVisible(driver, UserCheckOutPUI.DYNAMIC_NAME_TEXT, tabName);
+        return getTextElement(driver, UserCheckOutPUI.DYNAMIC_NAME_TEXT, tabName);
     }
 
-    @Step("Verify: Get text of Billing Email")
-    public String getBillingEmailText(){
-        waitForElementVisible(driver, UserCheckOutPUI.BILLING_EMAIL_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.BILLING_EMAIL_TEXT);
+    @Step("Verify: Get text of {0} Email")
+    public String getDynamicEmailText(String tabName){
+        waitForElementVisible(driver, UserCheckOutPUI.DYNAMIC_EMAIL_TEXT, tabName);
+        return getTextElement(driver, UserCheckOutPUI.DYNAMIC_EMAIL_TEXT, tabName);
     }
 
-    @Step("Verify: Get text of Billing Phone Number")
-    public String getBillingPhoneText(){
-        waitForElementVisible(driver, UserCheckOutPUI.BILLING_PHONE_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.BILLING_PHONE_TEXT);
+    @Step("Verify: Get text of {0} Phone Number")
+    public String getDynamicPhoneText(String tabName){
+        waitForElementVisible(driver, UserCheckOutPUI.DYNAMIC_PHONE_TEXT, tabName);
+        return getTextElement(driver, UserCheckOutPUI.DYNAMIC_PHONE_TEXT, tabName);
     }
 
-    @Step("Verify: Get text of Billing Fax Number")
-    public String getBillingFaxText(){
-        waitForElementVisible(driver, UserCheckOutPUI.BILLING_FAX_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.BILLING_FAX_TEXT);
+    @Step("Verify: Get text of {0} Fax Number")
+    public String getDynamicFaxText(String tabName){
+        waitForElementVisible(driver, UserCheckOutPUI.DYNAMIC_FAX_TEXT, tabName);
+        return getTextElement(driver, UserCheckOutPUI.DYNAMIC_FAX_TEXT, tabName);
     }
 
-    @Step("Verify: Get text of Billing Comapny")
-    public String getBillingCompanyText(){
-        waitForElementVisible(driver, UserCheckOutPUI.BILLING_COMPANY_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.BILLING_COMPANY_TEXT);
+    @Step("Verify: Get text of {0} Comapny")
+    public String getDynamicCompanyText(String tabName){
+        waitForElementVisible(driver, UserCheckOutPUI.DYNAMIC_COMPANY_TEXT, tabName);
+        return getTextElement(driver, UserCheckOutPUI.DYNAMIC_COMPANY_TEXT, tabName);
     }
 
-    @Step("Verify: Get text of Billing Country")
-    public String getBillingCountryText(){
-        waitForElementVisible(driver, UserCheckOutPUI.BILLING_COUNTRY_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.BILLING_COUNTRY_TEXT);
+    @Step("Verify: Get text of {0} Country")
+    public String getDynamicCountryText(String tabName){
+        waitForElementVisible(driver, UserCheckOutPUI.DYNAMIC_COUNTRY_TEXT, tabName);
+        return getTextElement(driver, UserCheckOutPUI.DYNAMIC_COUNTRY_TEXT, tabName);
     }
 
-    @Step("Verify: Get text of Billing State")
-    public String getBillingStateText(){
-        waitForElementVisible(driver, UserCheckOutPUI.BILLING_STATE_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.BILLING_STATE_TEXT);
+    @Step("Verify: Get text of {0} State")
+    public String getDynamicStateText(String tabName){
+        waitForElementVisible(driver, UserCheckOutPUI.DYNAMIC_STATE_TEXT, tabName);
+        return getTextElement(driver, UserCheckOutPUI.DYNAMIC_STATE_TEXT, tabName);
     }
 
-    @Step("Verify: Get text of Billing Address 1")
-    public String getBillingAddress1Text(){
-        waitForElementVisible(driver, UserCheckOutPUI.BILLING_ADDRESS1_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.BILLING_ADDRESS1_TEXT);
+    @Step("Verify: Get text of {0} Address 1")
+    public String getDynamicAddress1Text(String tabName){
+        waitForElementVisible(driver, UserCheckOutPUI.DYNAMIC_ADDRESS1_TEXT, tabName);
+        return getTextElement(driver, UserCheckOutPUI.DYNAMIC_ADDRESS1_TEXT, tabName);
     }
 
-    @Step("Verify: Get text of Billing Address 2")
-    public String getBillingAddress2Text(){
-        waitForElementVisible(driver, UserCheckOutPUI.BILLING_ADDRESS2_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.BILLING_ADDRESS2_TEXT);
+    @Step("Verify: Get text of {0} Address 2")
+    public String getDynamicAddress2Text(String tabName){
+        waitForElementVisible(driver, UserCheckOutPUI.DYNAMIC_ADDRESS2_TEXT, tabName);
+        return getTextElement(driver, UserCheckOutPUI.DYNAMIC_ADDRESS2_TEXT, tabName);
     }
 
-    @Step("Verify: Get text of Billing Zip Postal")
-    public String getBillingZipText(){
-        waitForElementVisible(driver, UserCheckOutPUI.BILLING_ZIP_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.BILLING_ZIP_TEXT);
-    }
-
-    @Step("Verify: Get text of Shipping Name")
-    public String getShippingNameText(){
-        waitForElementVisible(driver, UserCheckOutPUI.SHIPPING_NAME_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.SHIPPING_NAME_TEXT);
-    }
-
-    @Step("Verify: Get text of Shipping Email")
-    public String getShippingEmailText(){
-        waitForElementVisible(driver, UserCheckOutPUI.SHIPPING_EMAIL_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.SHIPPING_EMAIL_TEXT);
-    }
-
-    @Step("Verify: Get text of Shipping Phone Number")
-    public String getShippingPhoneText(){
-        waitForElementVisible(driver, UserCheckOutPUI.SHIPPING_PHONE_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.SHIPPING_PHONE_TEXT);
-    }
-
-    @Step("Verify: Get text of Shipping Fax Number")
-    public String getShippingFaxText(){
-        waitForElementVisible(driver, UserCheckOutPUI.SHIPPING_FAX_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.SHIPPING_FAX_TEXT);
-    }
-
-    @Step("Verify: Get text of Shipping Company")
-    public String getShippingCompanyText(){
-        waitForElementVisible(driver, UserCheckOutPUI.SHIPPING_COMPANY_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.SHIPPING_COMPANY_TEXT);
-    }
-
-    @Step("Verify: Get text of Shipping Country")
-    public String getShippingCountryText(){
-        waitForElementVisible(driver, UserCheckOutPUI.SHIPPING_COUNTRY_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.SHIPPING_COUNTRY_TEXT);
-    }
-
-    @Step("Verify: Get text of Shipping State")
-    public String getShippingStateText(){
-        waitForElementVisible(driver, UserCheckOutPUI.SHIPPING_STATE_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.SHIPPING_STATE_TEXT);
-    }
-
-    @Step("Verify: Get text of Shipping Address 1")
-    public String getShippingAddress1Text(){
-        waitForElementVisible(driver, UserCheckOutPUI.SHIPPING_ADDRESS1_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.SHIPPING_ADDRESS1_TEXT);
-    }
-
-    @Step("Verify: Get text of Shipping Address 2")
-    public String getShippingAddress2Text(){
-        waitForElementVisible(driver, UserCheckOutPUI.SHIPPING_ADDRESS2_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.SHIPPING_ADDRESS2_TEXT);
-    }
-
-    @Step("Verify: Get text of Shipping Zip")
-    public String getShippingZipText(){
-        waitForElementVisible(driver, UserCheckOutPUI.SHIPPING_ZIP_TEXT);
-        return getTextElement(driver, UserCheckOutPUI.SHIPPING_ZIP_TEXT);
+    @Step("Verify: Get text of {0} Zip Postal")
+    public String getDynamicZipText(String tabName){
+        waitForElementVisible(driver, UserCheckOutPUI.DYNAMIC_ZIP_TEXT, tabName);
+        return getTextElement(driver, UserCheckOutPUI.DYNAMIC_ZIP_TEXT, tabName);
     }
 
     @Step("Verify: Data are displayed in table")

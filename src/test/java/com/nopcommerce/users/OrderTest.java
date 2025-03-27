@@ -133,11 +133,11 @@ public class OrderTest extends BaseTest {
         checkOutPage = shoppingCartPage.clickOnCheckOutButton();
 
         checkOutPage.uncheckOnShipOnSameAddressCheckbox();
-        checkOutPage.addNewAddressBilling(nopCommerceData.getFirstName(), nopCommerceData.getLastName(), email,
+        checkOutPage.addNewAddressBillingShipping("Billing", nopCommerceData.getFirstName(), nopCommerceData.getLastName(), email,
                 nopCommerceData.getCompany(), nopCommerceData.getCountry(), nopCommerceData.getCity(), nopCommerceData.getCity(), address, address, nopCommerceData.getZipPostal(), phoneNumber, phoneNumber);
 
         checkOutPage.selectShippingAddressDropdown("New Address");
-        checkOutPage.addNewAddressShipping(nopCommerceData.getFirstName(), nopCommerceData.getLastName(), email,
+        checkOutPage.addNewAddressBillingShipping("Shipping", nopCommerceData.getFirstName(), nopCommerceData.getLastName(), email,
                 nopCommerceData.getCompany(), nopCommerceData.getCountry(), nopCommerceData.getCity(), nopCommerceData.getCity(), address, address, nopCommerceData.getZipPostal(), phoneNumber, phoneNumber);
 
         checkOutPage.selectShippingMethod("Ground ($0.00)");
@@ -146,27 +146,27 @@ public class OrderTest extends BaseTest {
         verifyTrue(checkOutPage.getPaymentInformation().contains("COMPANY NAME\nyour address here,\nNew York, NY 10001\nUSA"));
         checkOutPage.clickContinueButtonInPaymentInformation();
 
-        verifyEquals(checkOutPage.getBillingNameText(), nopCommerceData.getFirstName() + " " + nopCommerceData.getLastName());
-        verifyEquals(checkOutPage.getBillingEmailText(), "Email: " + email);
-        verifyEquals(checkOutPage.getBillingPhoneText(), "Phone: " + phoneNumber);
-        verifyEquals(checkOutPage.getBillingFaxText(), "Fax: " + phoneNumber);
-        verifyEquals(checkOutPage.getBillingCompanyText(), nopCommerceData.getCompany());
-        verifyEquals(checkOutPage.getBillingCountryText(), nopCommerceData.getCountry());
-        verifyEquals(checkOutPage.getBillingStateText(), nopCommerceData.getCity());
-        verifyEquals(checkOutPage.getBillingAddress1Text(), address);
-        verifyEquals(checkOutPage.getBillingAddress2Text(), address);
-        verifyEquals(checkOutPage.getBillingZipText(), nopCommerceData.getZipPostal());
+        verifyEquals(checkOutPage.getDynamicNameText("billing"), nopCommerceData.getFirstName() + " " + nopCommerceData.getLastName());
+        verifyEquals(checkOutPage.getDynamicEmailText("billing"), "Email: " + email);
+        verifyEquals(checkOutPage.getDynamicPhoneText("billing"), "Phone: " + phoneNumber);
+        verifyEquals(checkOutPage.getDynamicFaxText("billing"), "Fax: " + phoneNumber);
+        verifyEquals(checkOutPage.getDynamicCompanyText("billing"), nopCommerceData.getCompany());
+        verifyEquals(checkOutPage.getDynamicCountryText("billing"), nopCommerceData.getCountry());
+        verifyEquals(checkOutPage.getDynamicStateText("billing"), nopCommerceData.getCity());
+        verifyEquals(checkOutPage.getDynamicAddress1Text("billing"), address);
+        verifyEquals(checkOutPage.getDynamicAddress2Text("billing"), address);
+        verifyEquals(checkOutPage.getDynamicZipText("billing"), nopCommerceData.getZipPostal());
 
-        verifyEquals(checkOutPage.getShippingNameText(), nopCommerceData.getFirstName() + " " + nopCommerceData.getLastName());
-        verifyEquals(checkOutPage.getShippingEmailText(), "Email: " + email);
-        verifyEquals(checkOutPage.getShippingPhoneText(), "Phone: " + phoneNumber);
-        verifyEquals(checkOutPage.getShippingFaxText(), "Fax: " + phoneNumber);
-        verifyEquals(checkOutPage.getShippingCompanyText(), nopCommerceData.getCompany());
-        verifyEquals(checkOutPage.getShippingCountryText(), nopCommerceData.getCountry());
-        verifyEquals(checkOutPage.getShippingStateText(), nopCommerceData.getCity());
-        verifyEquals(checkOutPage.getShippingAddress1Text(), address);
-        verifyEquals(checkOutPage.getShippingAddress2Text(), address);
-        verifyEquals(checkOutPage.getShippingZipText(), nopCommerceData.getZipPostal());
+        verifyEquals(checkOutPage.getDynamicNameText("shipping"), nopCommerceData.getFirstName() + " " + nopCommerceData.getLastName());
+        verifyEquals(checkOutPage.getDynamicEmailText("shipping"), "Email: " + email);
+        verifyEquals(checkOutPage.getDynamicPhoneText("shipping"), "Phone: " + phoneNumber);
+        verifyEquals(checkOutPage.getDynamicFaxText("shipping"), "Fax: " + phoneNumber);
+        verifyEquals(checkOutPage.getDynamicCompanyText("shipping"), nopCommerceData.getCompany());
+        verifyEquals(checkOutPage.getDynamicCountryText("shipping"), nopCommerceData.getCountry());
+        verifyEquals(checkOutPage.getDynamicStateText("shipping"), nopCommerceData.getCity());
+        verifyEquals(checkOutPage.getDynamicAddress1Text("shipping"), address);
+        verifyEquals(checkOutPage.getDynamicAddress2Text("shipping"), address);
+        verifyEquals(checkOutPage.getDynamicZipText("shipping"), nopCommerceData.getZipPostal());
 
         verifyTrue(checkOutPage.isDataRowDisplayed(nopCommerceData.getSearchTest().getAppleSearch(), "$1,800.00", "2", "$3,600.00"));
         verifyEquals(checkOutPage.getSubTotalPriceText(), "$3,600.00");
