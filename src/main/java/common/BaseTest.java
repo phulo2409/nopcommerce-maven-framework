@@ -1,13 +1,11 @@
 package common;
 
+import factoryEnvironment.GridFactory;
+import factoryEnvironment.LocalFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.Reporter;
 
@@ -15,42 +13,35 @@ import java.io.IOException;
 import java.time.Duration;
 
 public class BaseTest {
-    private WebDriver driver;
+    private static ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
     protected final Logger log;
+    private Platform platform;
 
     public WebDriver getDriver() {
-        return driver;
+        return driver.get();
     }
 
     public BaseTest() {
         log = LogManager.getLogger(getClass());
     }
 
-    protected WebDriver getBrowserDriver(String browserName, String url){
-        BrowserList browserList = BrowserList.valueOf(browserName.toUpperCase());
-        switch (browserList){
-            case EDGE:
-                EdgeOptions edgeOptions = new EdgeOptions();
-                edgeOptions.addArguments("--user-data-dir=C:/Users/Admin/AppData/Local/Microsoft/Edge/User Data/");
-                edgeOptions.addArguments("--profile-directory=Profile 1");
-                driver = new EdgeDriver(edgeOptions);
+    protected WebDriver getBrowserDriver(String envName, String browserName, String url, String osName, String ipAddress, String portNumber){
+        switch (envName){
+            case "local":
+                driver.set(new LocalFactory(browserName).createDriver());
                 break;
-            case CHROME:
-                ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--user-data-dir=C:/Users/Admin/AppData/Local/Google/Chrome/User Data/");
-                chromeOptions.addArguments("--profile-directory=Profile 10");
-                driver = new ChromeDriver(chromeOptions);
+            case "grid":
+                driver.set(new GridFactory(browserName, osName, ipAddress, portNumber).createDriver());
                 break;
-            case FIREFOX:
-                driver = new FirefoxDriver();
             default:
-                throw new RuntimeException("Browser name is not valid");
+                System.out.println("Run default: " + envName);
+                driver.set(new LocalFactory(browserName).createDriver());
+                break;
         }
-
-        driver.get(url);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.getGlobalConstants().getShortTimeout()/3));
-        driver.manage().window().maximize();
-        return driver;
+        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.getGlobalConstants().getLongTimeout()));
+        driver.get().manage().window().maximize();
+        driver.get().get(url);
+        return driver.get();
     }
 
     protected boolean verifyTrue(boolean condition){
@@ -125,8 +116,8 @@ public class BaseTest {
             }
 
             if (driver != null) {
-                driver.manage().deleteAllCookies();
-                driver.quit();
+                driver.get().manage().deleteAllCookies();
+                driver.get().quit();
             }
         } catch (Exception e) {
             log.info(e.getMessage());

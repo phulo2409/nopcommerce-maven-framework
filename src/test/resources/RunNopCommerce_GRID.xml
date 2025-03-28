@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="NopCommerce Automation Testing">
+    
+    <listeners>
+        <listener class-name="common.MethodListener"></listener>
+        <listener class-name="utilities.AllureListener"></listener>
+    </listeners>
+
+    <parameter name="env" value="grid"/>
+    <parameter name="url" value="https://demo.nopcommerce.com/"/>
+    <parameter name="adminUrl" value="https://admin-demo.nopcommerce.com/login/"></parameter>
+
+    <test name="Run on Edge - Windows">
+        <parameter name="browser" value="edge"/>
+        <parameter name="osName" value="windows"/>
+        <parameter name="ipAddress" value="192.168.100.83"/>
+        <parameter name="port" value="4444"/>
+        <classes>
+            <class name="com.nopcommerce.users.LoginTest" />
+        </classes>
+    </test>
+</suite> <!-- Suite -->
+

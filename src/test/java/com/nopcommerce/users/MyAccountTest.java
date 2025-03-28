@@ -3,10 +3,7 @@ package com.nopcommerce.users;
 import com.nopcommerce.common.Login;
 import common.BaseTest;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pageObjects.PageGenerator;
 import pageObjects.users.dashboard.UserHomePO;
 import pageObjects.users.login.UserLoginPO;
@@ -22,10 +19,10 @@ import utilities.NopCommerceData;
 
 public class MyAccountTest extends BaseTest {
 
-    @Parameters({"browser", "url"})
+    @Parameters({"env", "browser", "url", "osName", "ipAddress", "port"})
     @BeforeClass
-    public void beforeClass(String browser, String url) {
-        driver = getBrowserDriver(browser, url);
+    public void beforeClass(String env, String browserName, String url, @Optional("windows") String osName, @Optional("localhost") String ipAddress, @Optional("4444") String portNumber) {
+        driver = getBrowserDriver(env, browserName, url, osName, ipAddress, portNumber);
         nopCommerceData = NopCommerceData.getNopCommerceData();
 
         fakerConfig = FakerConfig.getFaker();

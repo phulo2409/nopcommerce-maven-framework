@@ -3,10 +3,7 @@ package com.nopcommerce.admin;
 import common.BaseTest;
 import common.GlobalConstants;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pageObjects.PageGenerator;
 import pageObjects.admin.customer.*;
 import pageObjects.admin.dashboard.AdminDashboardPO;
@@ -17,10 +14,10 @@ import utilities.NopCommerceData;
 
 public class AdminTest extends BaseTest {
 
-    @Parameters({"browser", "adminUrl"})
+    @Parameters({"env", "browser", "url", "osName", "ipAddress", "port"})
     @BeforeClass
-    public void beforeClass(String browser, String url){
-        driver = getBrowserDriver(browser, url);
+    public void beforeClass(String env, String browserName, String url, @Optional("windows") String osName, @Optional("localhost") String ipAddress, @Optional("4444") String portNumber) {
+        driver = getBrowserDriver(env, browserName, url, osName, ipAddress, portNumber);
         nopCommerceData = NopCommerceData.getNopCommerceData();
 
         fakerConfig = FakerConfig.getFaker();
